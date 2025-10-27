@@ -30,8 +30,41 @@ function downloadFile(url, dest) {
     });
 }
 
+app.get('/api/debug', (req, res) => {
+    const nodeModulesPath = path.resolve('node_modules');
+    console.log(`--- DEBUG: Checking for node_modules at: ${nodeModulesPath} ---`);
+    fs.readdir(nodeModulesPath, (err, files) => {
+        if (err) {
+            console.error('--- DEBUG: Error reading node_modules ---', err);
+            return res.status(500).send(`<pre>Could not read node_modules directory.\nPath: ${nodeModulesPath}\nError: ${err.message}</pre>`);
+        }
+        
+        const hasRedocly = files.includes('@redocly');
+        let redoclyCliExists = false;
+        if (hasRedocly) {
+            try {
+                const redoclyPath = path.join(nodeModulesPath, '@redocly');
+                const redoclyFiles = fs.readdirSync(redoclyPath);
+                redoclyCliExists = redoclyFiles.includes('cli');
+            } catch (e) {
+                // ignore
+            }
+        }
+
+        res.status(200).send(`<pre>
+            <h1>Debug Info</h1>
+            Path searched: ${nodeModulesPath}
+            <h2>Does @redocly directory exist? ---> ${hasRedocly}</h2>
+            <h2>Does @redocly/cli directory exist? ---> ${redoclyCliExists}</h2>
+            <hr>
+            <h3>Found ${files.length} top-level directories:</h3>
+            ${files.join('<br>')}
+        </pre>`);
+    });
+});
+
 app.get('/api/docs/refresh', async (req, res) => {
-    console.log('--- ✅ NEWEST SERVER CODE (v3) IS RUNNING! ✅ ---');
+    console.log('--- ✅ NEWEST SERVER CODE (v4 - with debug) IS RUNNING! ✅ ---');
 
     // 중요: 이 URL은 실제 운영/테스트 중인 Pullit 백엔드 서버의 주소여야 합니다.
     const PULLIT_API_URL = 'https://qa.api.pull.it.kr/api-docs.yaml';
