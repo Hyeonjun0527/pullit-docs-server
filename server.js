@@ -15,8 +15,8 @@ app.get('/api/docs/refresh', async (req, res) => {
     // 중요: 이 URL은 실제 운영/테스트 중인 Pullit 백엔드 서버의 주소여야 합니다.
     const PULLIT_API_URL = 'https://qa.api.pull.it.kr/api-docs.yaml'; 
 
-    const specPath = path.join(__dirname, 'spec.yaml');
-    const outputPath = path.join(__dirname, 'index.html');
+    const specPath = path.join('/tmp', 'spec.yaml');
+    const outputPath = path.join('/tmp', 'index.html');
 
     console.log('문서 생성을 시작합니다...');
     try {
