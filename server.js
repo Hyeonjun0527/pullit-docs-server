@@ -31,6 +31,8 @@ function downloadFile(url, dest) {
 }
 
 app.get('/api/docs/refresh', async (req, res) => {
+    console.log('--- ✅ NEWEST SERVER CODE (v3) IS RUNNING! ✅ ---');
+
     // 중요: 이 URL은 실제 운영/테스트 중인 Pullit 백엔드 서버의 주소여야 합니다.
     const PULLIT_API_URL = 'https://qa.api.pull.it.kr/api-docs.yaml';
     
