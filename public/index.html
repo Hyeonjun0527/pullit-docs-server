@@ -36,56 +36,42 @@
         const docsFrame = document.getElementById('docs-frame');
         const autoRefreshCheckbox = document.getElementById('auto-refresh-checkbox');
 
+        const SPEC_URL = '/api/spec.yaml';
         let isRefreshing = false;
         let autoRefreshInterval = null;
 
-        async function refreshDocs() {
-            if (isRefreshing) {
-                console.log('이미 갱신 작업이 진행 중입니다.');
-                return;
-            }
-            
+        function loadDocs() {
+            if (isRefreshing) return;
             isRefreshing = true;
             refreshBtn.disabled = true;
-            statusSpan.textContent = '최신 문서를 생성 중입니다... (최대 1분 정도 소요될 수 있습니다)';
-            
-            if (!docsFrame.srcdoc) {
-                docsFrame.srcdoc = '<h1>Loading...</h1>';
-            }
+            statusSpan.textContent = '최신 문서를 불러오는 중입니다...';
 
-            try {
-                // 우리 서버의 /api/docs/refresh 엔드포인트를 호출합니다.
-                const response = await fetch('/api/docs/refresh');
-                if (!response.ok) {
-                    throw new Error(`서버 오류: ${response.status} ${response.statusText}`);
-                }
-                const html = await response.text();
-                // 응답으로 받은 HTML을 iframe에 그대로 렌더링합니다.
-                docsFrame.srcdoc = html;
+            docsFrame.onload = () => {
                 const now = new Date();
                 statusSpan.textContent = `문서가 성공적으로 갱신되었습니다. (${now.toLocaleTimeString()})`;
-            } catch (error) {
-                console.error('문서 갱신 실패:', error);
-                docsFrame.srcdoc = `<h1>문서 로딩 실패</h1><p>${error.message}</p>`;
-                statusSpan.textContent = '오류가 발생했습니다. 다시 시도해주세요.';
-            } finally {
                 isRefreshing = false;
                 refreshBtn.disabled = false;
-            }
+            };
+            docsFrame.onerror = () => {
+                statusSpan.textContent = '문서 로딩 실패';
+                isRefreshing = false;
+                refreshBtn.disabled = false;
+            };
+
+            const redocPage = `/redoc.html?spec=${encodeURIComponent(SPEC_URL)}`;
+            docsFrame.src = redocPage;
         }
 
         // 수동 새로고침 버튼 이벤트
-        refreshBtn.addEventListener('click', refreshDocs);
+        refreshBtn.addEventListener('click', loadDocs);
 
         // 자동 새로고침 체크박스 이벤트
         autoRefreshCheckbox.addEventListener('change', () => {
             if (autoRefreshCheckbox.checked) {
                 if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-                
-                autoRefreshInterval = setInterval(refreshDocs, 10000);
+                autoRefreshInterval = setInterval(loadDocs, 10000);
                 statusSpan.textContent = '10초마다 자동 갱신이 활성화되었습니다.';
-                
-                refreshDocs(); 
+                loadDocs();
             } else {
                 if (autoRefreshInterval) {
                     clearInterval(autoRefreshInterval);
@@ -95,8 +81,8 @@
             }
         });
 
-        // 페이지가 처음 로드될 때 문서를 한 번 불러옵니다.
-        refreshDocs();
+        // 초기 로드
+        loadDocs();
     </script>
 </body>
 </html>

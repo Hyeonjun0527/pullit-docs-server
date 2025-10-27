@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pullit API 문서 - Redoc</title>
+    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"></script>
+    <style>
+        html, body, #redoc { height: 100%; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+    <div id="redoc"></div>
+    <script>
+        const params = new URLSearchParams(location.search);
+        const specUrl = params.get('spec') || 'https://qa.api.pull.it.kr/api-docs.yaml';
+        Redoc.init(specUrl, {}, document.getElementById('redoc'));
+    </script>
+</body>
+</html>
