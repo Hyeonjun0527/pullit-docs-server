@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pullit API 문서</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; }
+        .container { display: flex; flex-direction: column; height: 100%; }
+        .header { padding: 1rem; background-color: #f8f8f8; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 1rem; }
+        .header h1 { margin: 0; font-size: 1.5rem; }
+        #refresh-btn { padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; border: 1px solid #ccc; background-color: #fff; border-radius: 5px; }
+        #refresh-btn:disabled { cursor: not-allowed; background-color: #eee; }
+        #status { font-style: italic; color: #555; }
+        .content { flex-grow: 1; border: none; }
+        label { display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Pullit API 문서</h1>
+            <button id="refresh-btn">최신 문서로 새로고침</button>
+            <label>
+                <input type="checkbox" id="auto-refresh-checkbox">
+                10초마다 자동 갱신
+            </label>
+            <span id="status">문서를 불러오는 중입니다...</span>
+        </div>
+        <iframe id="docs-frame" class="content" title="API Documentation"></iframe>
+    </div>
+
+    <script>
+        const refreshBtn = document.getElementById('refresh-btn');
+        const statusSpan = document.getElementById('status');
+        const docsFrame = document.getElementById('docs-frame');
+        const autoRefreshCheckbox = document.getElementById('auto-refresh-checkbox');
+
+        let isRefreshing = false;
+        let autoRefreshInterval = null;
+
+        async function refreshDocs() {
+            if (isRefreshing) {
+                console.log('이미 갱신 작업이 진행 중입니다.');
+                return;
+            }
+            
+            isRefreshing = true;
+            refreshBtn.disabled = true;
+            statusSpan.textContent = '최신 문서를 생성 중입니다... (최대 1분 정도 소요될 수 있습니다)';
+            
+            if (!docsFrame.srcdoc) {
+                docsFrame.srcdoc = '<h1>Loading...</h1>';
+            }
+
+            try {
+                // 우리 서버의 /api/docs/refresh 엔드포인트를 호출합니다.
+                const response = await fetch('/api/docs/refresh');
+                if (!response.ok) {
+                    throw new Error(`서버 오류: ${response.status} ${response.statusText}`);
+                }
+                const html = await response.text();
+                // 응답으로 받은 HTML을 iframe에 그대로 렌더링합니다.
+                docsFrame.srcdoc = html;
+                const now = new Date();
+                statusSpan.textContent = `문서가 성공적으로 갱신되었습니다. (${now.toLocaleTimeString()})`;
+            } catch (error) {
+                console.error('문서 갱신 실패:', error);
+                docsFrame.srcdoc = `<h1>문서 로딩 실패</h1><p>${error.message}</p>`;
+                statusSpan.textContent = '오류가 발생했습니다. 다시 시도해주세요.';
+            } finally {
+                isRefreshing = false;
+                refreshBtn.disabled = false;
+            }
+        }
+
+        // 수동 새로고침 버튼 이벤트
+        refreshBtn.addEventListener('click', refreshDocs);
+
+        // 자동 새로고침 체크박스 이벤트
+        autoRefreshCheckbox.addEventListener('change', () => {
+            if (autoRefreshCheckbox.checked) {
+                if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+                
+                autoRefreshInterval = setInterval(refreshDocs, 10000);
+                statusSpan.textContent = '10초마다 자동 갱신이 활성화되었습니다.';
+                
+                refreshDocs(); 
+            } else {
+                if (autoRefreshInterval) {
+                    clearInterval(autoRefreshInterval);
+                    autoRefreshInterval = null;
+                }
+                statusSpan.textContent = '자동 갱신이 비활성화되었습니다.';
+            }
+        });
+
+        // 페이지가 처음 로드될 때 문서를 한 번 불러옵니다.
+        refreshDocs();
+    </script>
+</body>
+</html>
