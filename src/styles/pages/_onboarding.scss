@@ -437,7 +437,7 @@
     }
 
     blockquote {
-      background: linear-gradient(135deg, alpha($primary-color, 0.05), alpha($primary-light, 0.05));
+      background: linear-gradient(135deg, alpha($primary-color, 0.05), alpha($primary-color, 0.05));
       border-left: 4px solid $primary-color;
       padding: $spacing-5;
       margin: $spacing-6 0;
