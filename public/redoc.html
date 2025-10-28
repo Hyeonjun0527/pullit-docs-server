@@ -7,19 +7,182 @@
     <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"></script>
     <style>
         html, body, #redoc { height: 100%; margin: 0; padding: 0; }
+        blockquote {
+            border-left: 4px solid #adb5bd;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: #6c757d;
+        }
+        .floating-controls {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            background: #fff;
+            padding: 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 240px;
+            overflow: hidden;
+            transition: height 0.3s ease;
+        }
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            background-color: #f8f9fa;
+        }
+        .controls-header h3 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+        #toggle-controls {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+        }
+        .controls-content {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+        .controls-content.hidden {
+            display: none;
+        }
+        .floating-controls a {
+            display: block;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .floating-controls button {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+        .floating-controls button:disabled {
+            cursor: not-allowed;
+            background-color: #e9ecef;
+        }
+        .floating-controls label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+        .floating-controls #status {
+            font-size: 0.8rem;
+            color: #6c757d;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
-        <a href="/onboarding.html" target="_blank" style="background-color: #f06; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; font-family: sans-serif; font-size: 14px;">
-            신규 개발자 가이드
-        </a>
+    <div class="floating-controls">
+        <div class="controls-header">
+            <h3>페이지 컨트롤</h3>
+            <button id="toggle-controls">🔼</button>
+        </div>
+        <div class="controls-content">
+            <a href="/onboarding.html">🧑‍💻 온보딩 가이드 바로가기</a>
+            <button id="refresh-btn">🔄 수동 새로고침</button>
+            <label>
+                <input type="checkbox" id="auto-refresh-checkbox">
+                10초마다 자동 갱신
+            </label>
+            <div id="status">준비</div>
+        </div>
     </div>
     <div id="redoc"></div>
     <script>
-        const params = new URLSearchParams(location.search);
-        const specUrl = params.get('spec') || 'https://qa.api.pull.it.kr/api-docs.yaml';
-        Redoc.init(specUrl, {}, document.getElementById('redoc'));
+        const refreshBtn = document.getElementById('refresh-btn');
+        const statusSpan = document.getElementById('status');
+        const autoRefreshCheckbox = document.getElementById('auto-refresh-checkbox');
+        let isRefreshing = false;
+        let autoRefreshInterval = null;
+
+        const toggleBtn = document.getElementById('toggle-controls');
+        const controlsContent = document.querySelector('.controls-content');
+
+        toggleBtn.addEventListener('click', () => {
+            controlsContent.classList.toggle('hidden');
+            if (controlsContent.classList.contains('hidden')) {
+                toggleBtn.textContent = '🔽';
+            } else {
+                toggleBtn.textContent = '🔼';
+            }
+        });
+        
+        const SPEC_URL = '/api-docs.yaml';
+
+        function loadDocs() {
+            if (isRefreshing) return;
+            isRefreshing = true;
+            refreshBtn.disabled = true;
+            statusSpan.textContent = '갱신 중...';
+
+            // Re-initialize Redoc by clearing the container and calling init again
+            const redocContainer = document.getElementById('redoc');
+            redocContainer.innerHTML = ''; 
+            
+            Redoc.init(
+                SPEC_URL,
+                {
+                    scrollYOffset: 50,
+                    theme: {
+                        colors: {
+                            primary: {
+                                main: '#f06',
+                                light: '#f06',
+                                dark: '#f06',
+                            },
+                        },
+                    },
+                },
+                redocContainer,
+                () => { // Callback on success
+                    const now = new Date();
+                    statusSpan.textContent = `갱신 완료 (${now.toLocaleTimeString()})`;
+                    isRefreshing = false;
+                    refreshBtn.disabled = false;
+                }
+            );
+        }
+
+        refreshBtn.addEventListener('click', loadDocs);
+
+        autoRefreshCheckbox.addEventListener('change', () => {
+            if (autoRefreshCheckbox.checked) {
+                if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+                autoRefreshInterval = setInterval(loadDocs, 10000);
+                statusSpan.textContent = '자동 갱신 활성화됨';
+                loadDocs(); // Immediately load on enabling
+            } else {
+                if (autoRefreshInterval) {
+                    clearInterval(autoRefreshInterval);
+                    autoRefreshInterval = null;
+                }
+                statusSpan.textContent = '자동 갱신 비활성화됨';
+            }
+        });
+
+        // Initial load
+        loadDocs();
     </script>
 </body>
 </html>

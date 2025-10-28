@@ -3,86 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pullit API 문서</title>
+    <title>Pullit 문서 포털</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; }
-        .container { display: flex; flex-direction: column; height: 100%; }
-        .header { padding: 1rem; background-color: #f8f8f8; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 1rem; }
-        .header h1 { margin: 0; font-size: 1.5rem; }
-        #refresh-btn { padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; border: 1px solid #ccc; background-color: #fff; border-radius: 5px; }
-        #refresh-btn:disabled { cursor: not-allowed; background-color: #eee; }
-        #status { font-style: italic; color: #555; }
-        .content { flex-grow: 1; border: none; }
-        label { display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            text-align: center;
+            padding: 3rem;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #212529;
+            margin-bottom: 1rem;
+        }
+        p {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 2.5rem;
+        }
+        .links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        .link-card {
+            display: block;
+            padding: 1.5rem 2.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #f06; /* Accent color from redoc */
+        }
+        .link-card h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            color: #343a40;
+        }
+        .link-card span {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Pullit API 문서</h1>
-            <button id="refresh-btn">최신 문서로 새로고침</button>
-            <label>
-                <input type="checkbox" id="auto-refresh-checkbox">
-                10초마다 자동 갱신
-            </label>
-            <span id="status">문서를 불러오는 중입니다...</span>
+        <h1>Pullit 문서 포털</h1>
+        <p>프로젝트의 기술 문서와 신규 개발자 가이드를 확인하세요.</p>
+        <div class="links">
+            <a href="/onboarding.html" class="link-card">
+                <h2>🧑‍💻 신규 개발자 가이드</h2>
+                <span>팀 문화, 개발 프로세스, 컨벤션 등</span>
+            </a>
+            <a href="/redoc.html" class="link-card">
+                <h2>📄 API 문서 (Redoc)</h2>
+                <span>프로젝트 API 명세서 바로가기</span>
+            </a>
         </div>
-        <iframe id="docs-frame" class="content" title="API Documentation"></iframe>
     </div>
-
-    <script>
-        const refreshBtn = document.getElementById('refresh-btn');
-        const statusSpan = document.getElementById('status');
-        const docsFrame = document.getElementById('docs-frame');
-        const autoRefreshCheckbox = document.getElementById('auto-refresh-checkbox');
-
-        const SPEC_URL = '/api/spec.yaml';
-        let isRefreshing = false;
-        let autoRefreshInterval = null;
-
-        function loadDocs() {
-            if (isRefreshing) return;
-            isRefreshing = true;
-            refreshBtn.disabled = true;
-            statusSpan.textContent = '최신 문서를 불러오는 중입니다...';
-
-            docsFrame.onload = () => {
-                const now = new Date();
-                statusSpan.textContent = `문서가 성공적으로 갱신되었습니다. (${now.toLocaleTimeString()})`;
-                isRefreshing = false;
-                refreshBtn.disabled = false;
-            };
-            docsFrame.onerror = () => {
-                statusSpan.textContent = '문서 로딩 실패';
-                isRefreshing = false;
-                refreshBtn.disabled = false;
-            };
-
-            const redocPage = `/redoc.html?spec=${encodeURIComponent(SPEC_URL)}`;
-            docsFrame.src = redocPage;
-        }
-
-        // 수동 새로고침 버튼 이벤트
-        refreshBtn.addEventListener('click', loadDocs);
-
-        // 자동 새로고침 체크박스 이벤트
-        autoRefreshCheckbox.addEventListener('change', () => {
-            if (autoRefreshCheckbox.checked) {
-                if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-                autoRefreshInterval = setInterval(loadDocs, 10000);
-                statusSpan.textContent = '10초마다 자동 갱신이 활성화되었습니다.';
-                loadDocs();
-            } else {
-                if (autoRefreshInterval) {
-                    clearInterval(autoRefreshInterval);
-                    autoRefreshInterval = null;
-                }
-                statusSpan.textContent = '자동 갱신이 비활성화되었습니다.';
-            }
-        });
-
-        // 초기 로드
-        loadDocs();
-    </script>
 </body>
 </html>

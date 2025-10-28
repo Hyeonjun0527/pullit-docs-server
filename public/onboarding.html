@@ -176,13 +176,67 @@
             margin: 1.5rem 0;
             color: #6c757d;
         }
+        .floating-controls {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1001;
+            background: #fff;
+            padding: 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            width: 220px;
+        }
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            background-color: #f8f9fa;
+        }
+        .controls-header h3 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+        #toggle-controls {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+        }
+        .controls-content {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+        .controls-content.hidden {
+            display: none;
+        }
+        .floating-controls a {
+            display: block;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
+    <div class="floating-controls">
+        <div class="controls-header">
+            <h3>빠른 이동</h3>
+            <button id="toggle-controls">🔼</button>
+        </div>
+        <div class="controls-content">
+            <a href="/redoc.html">📄 API 문서 바로가기</a>
+        </div>
+    </div>
     <nav class="top-nav">
         <h1>Pullit 온보딩 가이드</h1>
         <div class="nav-menu">
-            <a href="/redoc.html" class="nav-link">🏠 API 문서</a>
             
             <div class="nav-item">
                 <button class="dropdown-toggle">🚀 개요</button>
@@ -784,6 +838,19 @@ sudo certbot --nginx -d api-qa.pull.it.kr
             });
             
             showSection(location.hash || defaultSectionId);
+        });
+
+        // Add toggle functionality for floating controls
+        const toggleBtn = document.getElementById('toggle-controls');
+        const controlsContent = document.querySelector('.controls-content');
+
+        toggleBtn.addEventListener('click', () => {
+            controlsContent.classList.toggle('hidden');
+            if (controlsContent.classList.contains('hidden')) {
+                toggleBtn.textContent = '🔽';
+            } else {
+                toggleBtn.textContent = '🔼';
+            }
         });
     </script>
     <script>
