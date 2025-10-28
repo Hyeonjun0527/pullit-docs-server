@@ -82,6 +82,9 @@
       }
       
       .nav-section-title {
+        transition: none; // 사라질 때 transition 효과를 없애 즉시 사라지게 함
+        opacity: 0; // 시작 상태는 투명
+        animation: delayedFadeIn $transition-speed ease $transition-speed-lg forwards;
         justify-content: center;
         
         .section-title-content span,
@@ -745,6 +748,15 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes delayedFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
