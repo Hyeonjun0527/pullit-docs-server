@@ -1,4 +1,5 @@
 const SPEC_URL = 'https://qa.api.pull.it.kr/api-docs.yaml';
+const crypto = require('crypto');
 
 module.exports = async (req, res) => {
     try {
@@ -16,6 +17,13 @@ module.exports = async (req, res) => {
         }
 
         const specText = await specResponse.text();
+        const etag = crypto.createHash('sha1').update(specText).digest('hex');
+
+        res.setHeader('ETag', etag);
+
+        if (req.headers['if-none-match'] === etag) {
+            return res.status(304).send();
+        }
 
         const contentType = specResponse.headers.get('content-type') || 'text/yaml';
         res.setHeader('Content-Type', contentType);

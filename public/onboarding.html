@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pullit 온보딩 가이드</title>
-    <link rel="stylesheet" href="/css/onboarding.css">
+    <link rel="stylesheet" href="/css/main.css">
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="onboarding-page">
         <!-- Modern Floating Action Button -->
         <div class="fab-container">
             <div class="fab-menu" :class="{ show: isFabExpanded }">
@@ -28,30 +28,86 @@
             </button>
         </div>
 
-        <!-- Top Navigation -->
-        <nav class="top-nav">
-            <h1>Pullit 온보딩 가이드</h1>
-            <div class="nav-menu">
-                <div v-for="menu in navigation" class="nav-item">
-                    <button class="dropdown-toggle" @click.stop="toggleDropdown(menu.name)">{{ menu.name }}</button>
-                    <div class="dropdown-menu" :class="{ show: isDropdownOpen[menu.name] }">
-                        <a v-for="item in menu.items" :href="'#' + item.id" class="dropdown-item" @click.prevent="showSection(item.id)">{{ item.title }}</a>
+        <!-- Page Layout Grid -->
+        <div class="page-layout" :class="{ 'sidebar-collapsed': isSidebarCollapsed }">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar-nav" :class="{ collapsed: isSidebarCollapsed }">
+                <div class="nav-header">
+                    <h2>Pullit 온보딩 가이드</h2>
+                    <button class="sidebar-toggle" @click="toggleSidebar" :title="isSidebarCollapsed ? '사이드바 펼치기' : '사이드바 접기'">
+                        <i class="chevron-left" data-lucide="chevron-left"></i>
+                        <i class="chevron-right" data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+                <div v-for="menu in navigation" class="nav-section" :key="menu.name">
+                    <button class="nav-section-title" @click="handleSectionClick(menu.name)">
+                        <div class="section-title-content">
+                            <i :data-lucide="menu.icon"></i>
+                            <span>{{ menu.name }}</span>
+                        </div>
+                        <i class="chevron" :data-lucide="isSectionCollapsed(menu.name) ? 'chevron-right' : 'chevron-down'"></i>
+                    </button>
+                    <div class="nav-section-icon" :title="menu.name">
+                        <i :data-lucide="menu.icon"></i>
+                    </div>
+                    <div class="nav-items" :class="{ collapsed: isSectionCollapsed(menu.name) }">
+                        <a v-for="item in menu.items" 
+                           :key="item.id"
+                           :href="'#' + item.id" 
+                           class="nav-item"
+                           :class="{ active: activeSection === item.id }"
+                           @click.prevent="showSection(item.id)">
+                            <i :data-lucide="item.icon"></i>
+                            <span>{{ item.title }}</span>
+                        </a>
                     </div>
                 </div>
-            </div>
-        </nav>
+            </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <section v-for="(section, id) in sections" :key="id" :id="id" class="content-section" :class="{ active: activeSection === id }">
-                <div class="card">
-                    <h3>{{ section.title }}</h3>
-                    <div v-html="section.html"></div>
+            <!-- Main Content -->
+            <main class="main-content" :class="{ 'sidebar-collapsed': isSidebarCollapsed }">
+                <div class="content-container">
+                    <section v-for="(section, id) in sections" :key="id" :id="id" class="content-section" :class="{ active: activeSection === id }">
+                        <div class="content-card">
+                            <h3>{{ section.title }}</h3>
+                            <div v-html="section.html"></div>
+                        </div>
+                    </section>
                 </div>
-            </section>
-        </main>
+            </main>
+        </div>
+
+        <!-- Mobile Navigation Toggle -->
+        <button class="mobile-nav-toggle" @click="toggleMobileSidebar">
+            <i data-lucide="menu"></i>
+        </button>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div class="mobile-sidebar-overlay" :class="{ show: isMobileSidebarOpen }" @click="closeMobileSidebar"></div>
+        
+        <!-- Mobile Sidebar -->
+        <aside class="mobile-sidebar" :class="{ show: isMobileSidebarOpen }">
+            <div class="nav-header">
+                <h2>Pullit 온보딩 가이드</h2>
+            </div>
+            <div v-for="menu in navigation" class="nav-section" :key="menu.name">
+                <h4 class="nav-section-title">
+                    <i :data-lucide="menu.icon"></i>
+                    {{ menu.name }}
+                </h4>
+                <a v-for="item in menu.items" 
+                   :key="item.id"
+                   :href="'#' + item.id" 
+                   class="nav-item"
+                   :class="{ active: activeSection === item.id }"
+                   @click.prevent="showSection(item.id); closeMobileSidebar()">
+                    <i :data-lucide="item.icon"></i>
+                    {{ item.title }}
+                </a>
+            </div>
+        </aside>
     </div>
 
-    <script src="/js/onboarding.js"></script>
+    <script src="/js/onboarding.js" defer></script>
 </body>
 </html>

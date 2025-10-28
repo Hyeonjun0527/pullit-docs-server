@@ -1,80 +1,89 @@
-const app = Vue.createApp({
-    data() {
-        return {
-            activeSection: 'introduction',
-            isDropdownOpen: {},
-            isFabExpanded: false,
-            navigation: [
-                {
-                    name: '🚀 개요',
-                    items: [
-                        { id: 'introduction', title: '문서 개요' },
-                        { id: 'philosophy', title: '개발 철학' },
-                        { id: 'maintainers', title: 'Maintainers' }
-                    ]
-                },
-                {
-                    name: '🛠️ 개발 프로세스',
-                    items: [
-                        { id: 'git-convention', title: 'Git 컨벤션' },
-                        { id: 'api-design', title: 'API 설계' }
-                    ]
-                },
-                {
-                    name: '🚀 배포 프로세스',
-                    items: [
-                        { id: 'deploy-overview', title: '배포 개요' },
-                        { id: 'deploy-ec2-setup', title: '1. EC2 서버 설정' },
-                        { id: 'deploy-docker-build', title: '2. Docker 빌드 전략' },
-                        { id: 'deploy-docker-compose', title: '3. EC2 컨테이너 실행' },
-                        { id: 'deploy-dns', title: '4. DNS 및 도메인 연결' },
-                        { id: 'deploy-nginx', title: '5. Nginx 리버스 프록시' },
-                        { id: 'deploy-https', title: '6. HTTPS 적용' }
-                    ]
-                },
-                {
-                    name: '📜 기술 표준',
-                    items: [
-                        { id: 'code-convention', title: '코딩 컨벤션' },
-                        { id: 'environment-setup', title: '개발 환경 설정' }
-                    ]
-                },
-                {
-                    name: '📚 팀 리소스',
-                    items: [
-                        { id: 'team-resources', title: '팀 프로젝트 페이지' }
-                    ]
-                }
-            ],
-            sections: {
-                introduction: {
-                    title: '👋 환영합니다!',
-                    html: `
+document.addEventListener('DOMContentLoaded', () => {
+    const app = Vue.createApp({
+        data() {
+            return {
+                activeSection: 'introduction',
+                isDropdownOpen: {},
+                isFabExpanded: false,
+                isMobileSidebarOpen: false,
+                isSidebarCollapsed: false,
+                collapsedSections: {},
+                navigation: [
+                    {
+                        name: '개요',
+                        icon: 'rocket',
+                        items: [
+                            { id: 'introduction', title: '문서 개요', icon: 'book-open' },
+                            { id: 'philosophy', title: '개발 철학', icon: 'lightbulb' },
+                            { id: 'maintainers', title: 'Maintainers', icon: 'users' }
+                        ]
+                    },
+                    {
+                        name: '개발 프로세스',
+                        icon: 'settings',
+                        items: [
+                            { id: 'git-convention', title: 'Git 컨벤션', icon: 'git-branch' },
+                            { id: 'api-design', title: 'API 설계', icon: 'code' }
+                        ]
+                    },
+                    {
+                        name: '배포 프로세스',
+                        icon: 'upload',
+                        items: [
+                            { id: 'deploy-overview', title: '배포 개요', icon: 'info' },
+                            { id: 'deploy-ec2-setup', title: '1. EC2 서버 설정', icon: 'server' },
+                            { id: 'deploy-docker-build', title: '2. Docker 빌드 전략', icon: 'package' },
+                            { id: 'deploy-docker-compose', title: '3. EC2 컨테이너 실행', icon: 'play' },
+                            { id: 'deploy-dns', title: '4. DNS 및 도메인 연결', icon: 'globe' },
+                            { id: 'deploy-nginx', title: '5. Nginx 리버스 프록시', icon: 'shield' },
+                            { id: 'deploy-https', title: '6. HTTPS 적용', icon: 'lock' }
+                        ]
+                    },
+                    {
+                        name: '기술 표준',
+                        icon: 'file-text',
+                        items: [
+                            { id: 'code-convention', title: '코딩 컨벤션', icon: 'code-2' },
+                            { id: 'environment-setup', title: '개발 환경 설정', icon: 'monitor' }
+                        ]
+                    },
+                    {
+                        name: '팀 리소스',
+                        icon: 'folder',
+                        items: [
+                            { id: 'team-resources', title: '팀 프로젝트 페이지', icon: 'external-link' }
+                        ]
+                    }
+                ],
+                sections: {
+                    introduction: {
+                        title: '👋 환영합니다!',
+                        html: `
                         <blockquote>본 문서는 프로젝트의 모든 팀원이 공통으로 준수해야 할 핵심 개발 원칙과 협업 절차를 정의한다. 프론트엔드 및 백엔드 개발자는 각 파트의 상세 가이드를 추가로 숙지해야 한다.</blockquote>
                         <p>Pullit 팀에 오신 것을 환영합니다! 이 문서는 새로운 팀원들이 우리 팀의 문화, 개발 프로세스, 기술 표준을 빠르고 쉽게 이해할 수 있도록 돕기 위해 만들어졌습니다. 왼쪽 메뉴를 통해 Pullit의 일하는 방식을 알아보세요.</p>
                     `
-                },
-                philosophy: {
-                    title: '개발 철학: 모든 행위에는 의도가 있어야 한다',
-                    html: `
+                    },
+                    philosophy: {
+                        title: '개발 철학: 모든 행위에는 의도가 있어야 한다',
+                        html: `
                         <p>우리 팀의 가장 중요한 개발 철학은 <strong>"모든 행위에 의도가 있어야 한다"</strong>는 것입니다.</p>
                         <p>이 철학은 특히 Git 커밋 전략에 직접적으로 적용됩니다. 우리는 <code>feat</code>, <code>fix</code>, <code>docs</code>와 같이 단순히 작업의 유형을 나타내는 커밋 메시지 컨벤션을 사용하지 않습니다. 왜냐하면 "나중에 feat 커밋만 모아보거나, fix 커밋만 따로 볼 일이 있을까?"라는 질문에 "아니오"라고 답했기 때문입니다.</p>
                         <p>대신, 우리의 모든 커밋은 <strong>추적 가능한 '요구사항'에 대한 결과물</strong>이어야 합니다. 과거의 코드를 다시 확인해야 할 때 중요한 것은 '기능 추가'라는 유형이 아니라, '어떤 요구사항을 해결하기 위한 코드였는가'입니다. 따라서 우리는 모든 커밋 메시지를 <code>btsk-요구사항번호</code>로 시작하여 그 의도를 명확히 드러냅니다.</p>
                     `
-                },
-                maintainers: {
-                    title: 'Maintainers',
-                    html: `
+                    },
+                    maintainers: {
+                        title: 'Maintainers',
+                        html: `
                         <p>
                             <a href="https://github.com/xqqldir"><img src="https://img.shields.io/badge/Github-xqqldir-yellow" alt="Static Badge"/></a>
                             <a href="https://github.com/Hyeonjun0527"><img src="https://img.shields.io/badge/Github-Hyeonjun0527-green" alt="Static Badge"/></a>
                             <a href="https://github.com/flareseek"><img src="https://img.shields.io/badge/Github-flareseek-orange" alt="Static Badge"/></a>
                         </p>
                     `
-                },
-                'git-convention': {
-                    title: 'Git 컨벤션',
-                    html: `
+                    },
+                    'git-convention': {
+                        title: 'Git 컨벤션',
+                        html: `
                         <h4>브랜치 전략</h4>
                         <p>우리 팀은 아래와 같은 GitFlow 기반의 브랜치 전략을 사용합니다.</p>
                         <pre><code class="mermaid">
@@ -128,10 +137,10 @@ const app = Vue.createApp({
                             <li>PR을 머지할 때는 **Squash and Merge** 방식을 사용합니다. 이를 통해 작업 브랜치의 여러 커밋들이 PR 제목을 커밋 메시지로 하는 단일 커밋으로 합쳐져 <code>develop</code> 브랜치에 반영됩니다. 따라서 PR 제목을 컨벤션에 맞게 명확히 작성하는 것이 매우 중요합니다.</li>
                         </ul>
                     `
-                },
-                'api-design': {
-                    title: 'API 설계',
-                    html: `
+                    },
+                    'api-design': {
+                        title: 'API 설계',
+                        html: `
                         <h4>API 설계 및 버전 관리</h4>
                         <p>API 엔드포인트는 RESTful 원칙을 따라 리소스 중심으로 설계하며, 명사는 복수형을 사용하고 동사 사용은 지양합니다.</p>
                         <ul>
@@ -160,10 +169,10 @@ const app = Vue.createApp({
                         <h4>에러 코드 명세</h4>
                         <p>예측 가능한 비즈니스 예외 상황에 대해서는 별도의 에러 코드를 정의하여 사용합니다. 에러 코드는 도메인을 나타내는 알파벳과 숫자를 조합하여 <code>도메인코드+숫자</code> 형식으로 만듭니다. (예: U001 - User, P002 - Post)</p>
                     `
-                },
-                'deploy-overview': {
-                    title: '배포 개요: EC2 무빌드 배포 시스템',
-                    html: `
+                    },
+                    'deploy-overview': {
+                        title: '배포 개요: EC2 무빌드 배포 시스템',
+                        html: `
                         <p>우리 팀은 **"EC2에서는 빌드하지 않고, 실행만 한다"**는 원칙을 따르는 '무빌드(No-Build) 배포 시스템'을 구축했습니다. 이 방식은 EC2 서버의 리소스를 절약하고, 배포 속도를 획기적으로 향상시키며, 보안을 강화하는 이점이 있습니다.</p>
                         <h4>배포 흐름</h4>
                         <pre><code>
@@ -180,10 +189,10 @@ EC2 서버: 이미지 PULL 후 실행만 담당 (가벼운 작업)
                             <li><strong>보안성 강화</strong>: EC2 서버에 JDK, Gradle 등 빌드와 관련된 도구를 설치할 필요가 없어 공격 노출 지점을 줄일 수 있습니다.</li>
                         </ul>
                     `
-                },
-                'deploy-ec2-setup': {
-                    title: '1. EC2 서버 초기 설정',
-                    html: `
+                    },
+                    'deploy-ec2-setup': {
+                        title: '1. EC2 서버 초기 설정',
+                        html: `
                         <p>새로운 Ubuntu EC2 인스턴스를 생성한 후, 아래의 스크립트를 실행하여 개발 및 배포에 필요한 기본 환경을 자동으로 구성합니다. 이 스크립트는 Zsh, Oh My Zsh, Docker, Docker Compose 등을 설치하고 기본 설정을 완료합니다.</p>
                         <h4>Ubuntu (EC2) 자동 설치/설정 스크립트</h4>
                         <pre><code class="language-bash">
@@ -200,17 +209,17 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \\
 exec zsh -l
                         </code></pre>
                     `
-                },
-                'code-convention': {
-                    title: '코딩 컨벤션',
-                    html: `
+                    },
+                    'code-convention': {
+                        title: '코딩 컨벤션',
+                        html: `
                         <p>우리 팀의 모든 Java 코드는 <a href="https://google.github.io/styleguide/javaguide.html" target="_blank">Google Java Style Guide</a>를 따릅니다.</p>
                         <p>모든 팀원은 아래의 개발 환경 설정을 통해 코드 스타일이 자동으로 적용되도록 해야 합니다.</p>
                     `
-                },
-                 'environment-setup': {
-                    title: '개발 환경 설정 (IntelliJ 기준)',
-                    html: `
+                    },
+                     'environment-setup': {
+                        title: '개발 환경 설정 (IntelliJ 기준)',
+                        html: `
                         <h4>Checkstyle</h4>
                         <ol>
                             <li>Marketplace에서 <code>Checkstyle-IDEA</code> 플러그인을 설치합니다.</li>
@@ -236,10 +245,10 @@ exec zsh -l
                         </code></pre>
                         <p><em>참조: <a href="https://github.com/google/google-java-format/blob/master/README.md#intellij-jre-config" target="_blank">Official Guide</a></em></p>
                     `
-                },
-                'team-resources': {
-                    title: '팀 프로젝트 페이지',
-                    html: `
+                    },
+                    'team-resources': {
+                        title: '팀 프로젝트 페이지',
+                        html: `
                         <p>우리 팀의 모든 프로젝트 관리와 문서화는 아래 Notion 페이지를 중심으로 이루어집니다.</p>
                         <p><a href="https://www.notion.so/pullit/2-245c61d733498000a869fc6fb977d52e?p=255c61d733498052b394fe84e3dbc1e0&pm=s" target="_blank">강원대 2팀 프로젝트 페이지 바로가기</a></p>
                         <p>이 페이지에서는 다음의 정보들을 확인할 수 있습니다.</p>
@@ -251,65 +260,90 @@ exec zsh -l
                             <li><strong>기술 블로그</strong>: 개발 과정에서 발생한 이슈 해결 경험, 새로운 기술 학습 내용 등 팀의 기술적 자산을 축적하는 공간입니다.</li>
                         </ul>
                     `
+                    }
                 }
             }
-        }
-    },
-    methods: {
-        showSection(sectionId) {
-            this.activeSection = sectionId;
-            window.location.hash = sectionId;
-            this.closeAllDropdowns();
+        },
+        methods: {
+            showSection(sectionId) {
+                this.activeSection = sectionId;
+                window.location.hash = sectionId;
+                this.closeAllDropdowns();
+                
+                this.$nextTick(() => {
+                    if (document.querySelector('.mermaid')) {
+                        mermaid.run();
+                    }
+                    // Re-initialize Lucide icons after content change
+                    if (typeof lucide !== 'undefined') {
+                        lucide.createIcons();
+                    }
+                });
+            },
+            toggleDropdown(menuName) {
+                this.isDropdownOpen[menuName] = !this.isDropdownOpen[menuName];
+            },
+            closeAllDropdowns() {
+                for (const key in this.isDropdownOpen) {
+                    this.isDropdownOpen[key] = false;
+                }
+            },
+            toggleFab() {
+                this.isFabExpanded = !this.isFabExpanded;
+            },
+            toggleMobileSidebar() {
+                this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
+            },
+            closeMobileSidebar() {
+                this.isMobileSidebarOpen = false;
+            },
+            toggleSidebar() {
+                this.isSidebarCollapsed = !this.isSidebarCollapsed;
+            },
+            handleSectionClick(sectionName) {
+                if (this.isSidebarCollapsed) {
+                    this.isSidebarCollapsed = false;
+                    // 사이드바가 펼쳐지는 애니메이션이 시작된 후
+                    // 해당 섹션이 열리도록 nextTick을 사용합니다.
+                    this.$nextTick(() => {
+                        this.collapsedSections[sectionName] = false;
+                    });
+                } else {
+                    this.collapsedSections[sectionName] = !this.isSectionCollapsed(sectionName);
+                }
+            },
+            isSectionCollapsed(sectionName) {
+                return this.collapsedSections[sectionName] || false;
+            }
+        },
+        mounted() {
+            const hash = window.location.hash.substring(1);
+            if (this.sections[hash]) {
+                this.activeSection = hash;
+            } else {
+                this.activeSection = 'introduction';
+            }
             
             this.$nextTick(() => {
-                if (document.querySelector('.mermaid')) {
-                    mermaid.run();
-                }
-                // Re-initialize Lucide icons after content change
+                mermaid.run();
+                // Initialize Lucide icons
                 if (typeof lucide !== 'undefined') {
                     lucide.createIcons();
                 }
             });
-        },
-        toggleDropdown(menuName) {
-            this.isDropdownOpen[menuName] = !this.isDropdownOpen[menuName];
-        },
-        closeAllDropdowns() {
-            for (const key in this.isDropdownOpen) {
-                this.isDropdownOpen[key] = false;
-            }
-        },
-        toggleFab() {
-            this.isFabExpanded = !this.isFabExpanded;
-        }
-    },
-    mounted() {
-        const hash = window.location.hash.substring(1);
-        if (this.sections[hash]) {
-            this.activeSection = hash;
-        } else {
-            this.activeSection = 'introduction';
-        }
-        
-        this.$nextTick(() => {
-            mermaid.run();
-            // Initialize Lucide icons
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        });
 
-        window.addEventListener('click', (event) => {
-            if (!this.$el.querySelector('.nav-menu').contains(event.target)) {
-                this.closeAllDropdowns();
-            }
-            
-            // Close FAB when clicking outside
-            if (!this.$el.querySelector('.fab-container').contains(event.target)) {
-                this.isFabExpanded = false;
-            }
-        });
-    }
+            window.addEventListener('click', (event) => {
+                if (!this.$el.querySelector('.nav-menu').contains(event.target)) {
+                    this.closeAllDropdowns();
+                }
+                
+                // Close FAB when clicking outside
+                if (!this.$el.querySelector('.fab-container').contains(event.target)) {
+                    this.isFabExpanded = false;
+                }
+            });
+        }
+    });
+
+    app.mount('#app');
 });
-
-app.mount('#app');

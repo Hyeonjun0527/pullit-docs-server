@@ -4,186 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pullit API 문서 - Redoc</title>
+    <link rel="stylesheet" href="/css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"></script>
-    <style>
-        html, body, #redoc { height: 100%; margin: 0; padding: 0; }
-        blockquote {
-            border-left: 4px solid #adb5bd;
-            padding-left: 1rem;
-            margin: 1.5rem 0;
-            color: #6c757d;
-        }
-        .floating-controls {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 1000;
-            background: #fff;
-            padding: 0;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            width: 240px;
-            overflow: hidden;
-            transition: height 0.3s ease;
-        }
-        .controls-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.8rem 1rem;
-            cursor: pointer;
-            background-color: #f8f9fa;
-        }
-        .controls-header h3 {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #495057;
-        }
-        #toggle-controls {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            line-height: 1;
-            padding: 0;
-        }
-        .controls-content {
-            padding: 1rem;
-            border-top: 1px solid #eee;
-        }
-        .controls-content.hidden {
-            display: none;
-        }
-        .floating-controls a {
-            display: block;
-            text-decoration: none;
-            color: #007bff;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-        .floating-controls button {
-            width: 100%;
-            padding: 0.5rem;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            margin-bottom: 0.5rem;
-        }
-        .floating-controls button:disabled {
-            cursor: not-allowed;
-            background-color: #e9ecef;
-        }
-        .floating-controls label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: #495057;
-            margin-bottom: 0.5rem;
-        }
-        .floating-controls #status {
-            font-size: 0.8rem;
-            color: #6c757d;
-            font-style: italic;
-        }
-    </style>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
-<body>
-    <div class="floating-controls">
-        <div class="controls-header">
-            <h3>페이지 컨트롤</h3>
-            <button id="toggle-controls">🔼</button>
+<body class="redoc-page">
+    <!-- Modern Floating Action Button -->
+    <div class="fab-container">
+        <div class="fab-menu" id="fab-menu">
+            <a href="/onboarding.html" class="fab-item">
+                <i data-lucide="graduation-cap"></i>
+                온보딩 가이드
+            </a>
+            <a href="/" class="fab-item">
+                <i data-lucide="home"></i>
+                홈으로
+            </a>
+            <button type="button" class="fab-item" id="refresh-btn" style="cursor: pointer;">
+                <i data-lucide="refresh-cw"></i>
+                수동 새로고침
+            </button>
+            <button type="button" class="fab-item" id="auto-refresh-btn" style="cursor: pointer;">
+                <i data-lucide="clock"></i>
+                자동 갱신
+            </button>
         </div>
-        <div class="controls-content">
-            <a href="/onboarding.html">🧑‍💻 온보딩 가이드 바로가기</a>
-            <button id="refresh-btn">🔄 수동 새로고침</button>
-            <label>
-                <input type="checkbox" id="auto-refresh-checkbox">
-                10초마다 자동 갱신
-            </label>
-            <div id="status">준비</div>
-        </div>
+        <button type="button" class="fab-main" id="fab-toggle">
+            <i data-lucide="plus"></i>
+        </button>
     </div>
+    
+    <!-- Status Bar -->
+    <div id="status-bar" style="position: fixed; bottom: 40px; left: 55px; background: rgba(255,255,255,0.9); padding: 8px 16px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 12px; color: #666; z-index: 999;">
+        <span id="status">준비</span>
+    </div>
+    
     <div id="redoc"></div>
-    <script>
-        const refreshBtn = document.getElementById('refresh-btn');
-        const statusSpan = document.getElementById('status');
-        const autoRefreshCheckbox = document.getElementById('auto-refresh-checkbox');
-        let isRefreshing = false;
-        let autoRefreshInterval = null;
-
-        const toggleBtn = document.getElementById('toggle-controls');
-        const controlsContent = document.querySelector('.controls-content');
-
-        toggleBtn.addEventListener('click', () => {
-            controlsContent.classList.toggle('hidden');
-            if (controlsContent.classList.contains('hidden')) {
-                toggleBtn.textContent = '🔽';
-            } else {
-                toggleBtn.textContent = '🔼';
-            }
-        });
-        
-        const SPEC_URL = '/api-docs.yaml';
-
-        function loadDocs() {
-            if (isRefreshing) return;
-            isRefreshing = true;
-            refreshBtn.disabled = true;
-            statusSpan.textContent = '갱신 중...';
-
-            // Re-initialize Redoc by clearing the container and calling init again
-            const redocContainer = document.getElementById('redoc');
-            redocContainer.innerHTML = ''; 
-            
-            Redoc.init(
-                SPEC_URL,
-                {
-                    scrollYOffset: 50,
-                    theme: {
-                        colors: {
-                            primary: {
-                                main: '#f06',
-                                light: '#f06',
-                                dark: '#f06',
-                            },
-                        },
-                    },
-                },
-                redocContainer,
-                () => { // Callback on success
-                    const now = new Date();
-                    statusSpan.textContent = `갱신 완료 (${now.toLocaleTimeString()})`;
-                    isRefreshing = false;
-                    refreshBtn.disabled = false;
-                }
-            );
-        }
-
-        refreshBtn.addEventListener('click', loadDocs);
-
-        autoRefreshCheckbox.addEventListener('change', () => {
-            if (autoRefreshCheckbox.checked) {
-                if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-                autoRefreshInterval = setInterval(loadDocs, 10000);
-                statusSpan.textContent = '자동 갱신 활성화됨';
-                loadDocs(); // Immediately load on enabling
-            } else {
-                if (autoRefreshInterval) {
-                    clearInterval(autoRefreshInterval);
-                    autoRefreshInterval = null;
-                }
-                statusSpan.textContent = '자동 갱신 비활성화됨';
-            }
-        });
-
-        // Initial load
-        loadDocs();
-    </script>
+    <script src="/js/redoc.js"></script>
 </body>
 </html>
 
