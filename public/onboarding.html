@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
 </head>
 <body>
     <div id="app" class="onboarding-page">
@@ -70,7 +71,8 @@
                     <section v-for="(section, id) in sections" :key="id" :id="id" class="content-section" :class="{ active: activeSection === id }">
                         <div class="content-card">
                             <h3>{{ section.title }}</h3>
-                            <div v-html="section.html"></div>
+                            <div v-if="section.markdown" v-html="renderMarkdown(section.markdown)"></div>
+                            <div v-else-if="section.html" v-html="section.html"></div>
                         </div>
                     </section>
                 </div>
