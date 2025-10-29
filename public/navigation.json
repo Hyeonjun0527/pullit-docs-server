@@ -19,6 +19,14 @@
         ]
     },
     {
+        "name": "백엔드 문서",
+        "icon": "server",
+        "category": "backend",
+        "items": [
+            { "id": "architecture", "title": "아키텍처", "icon": "layout-grid" }
+        ]
+    },
+    {
         "name": "배포 프로세스",
         "icon": "upload",
         "category": "deployment-process",

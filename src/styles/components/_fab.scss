@@ -101,3 +101,11 @@
     flex-shrink: 0;
   }
 }
+
+// Media query for mobile devices
+@media (max-width: 768px) {
+  .fab-container {
+    right: auto;
+    left: $spacing-4;
+  }
+}
