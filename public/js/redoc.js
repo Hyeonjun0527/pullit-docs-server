@@ -14,11 +14,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function showToast(message) {
         if (toastTimeout) clearTimeout(toastTimeout);
 
+        const toastContainer = document.getElementById('toast-container');
         let toast = document.querySelector('.toast-notification');
+        
         if (!toast) {
             toast = document.createElement('div');
             toast.className = 'toast-notification';
-            document.body.appendChild(toast);
+            if (toastContainer) {
+                toastContainer.appendChild(toast);
+            } else {
+                document.body.appendChild(toast);
+            }
         }
 
         toast.textContent = message;
@@ -46,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadDocs() {
         if (isRefreshing) return;
         isRefreshing = true;
-        refreshBtn.disabled = true;
+        if(refreshBtn) refreshBtn.disabled = true;
         showToast('페이지 새로고침 중...');
         
         // 페이지를 완전히 새로고침하여 Redoc을 다시 로드합니다.
@@ -71,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const redocContainer = document.getElementById('redoc');
+        if (!redocContainer) return;
         
         Redoc.init(
             SPEC_URL,
@@ -123,9 +130,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    refreshBtn.addEventListener('click', loadDocs);
+    if(refreshBtn) refreshBtn.addEventListener('click', loadDocs);
 
-    autoRefreshBtn.addEventListener('click', () => {
+    if(autoRefreshBtn) autoRefreshBtn.addEventListener('click', () => {
         isAutoRefreshEnabled = !isAutoRefreshEnabled; // 상태 토글
         autoRefreshBtn.classList.toggle('active', isAutoRefreshEnabled);
 
