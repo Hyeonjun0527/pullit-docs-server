@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 isMobileSidebarOpen: false,
                 isSidebarCollapsed: false,
                 collapsedSections: {},
+                isDiagramModalVisible: false,
+                modalDiagramContent: '',
                 navigation: [
                     {
                         name: '개요',
@@ -293,25 +295,51 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             initializeMermaid() {
                 if (typeof mermaid !== 'undefined') {
-                    // 머메이드 다이어그램이 있는지 확인
-                    const mermaidElements = document.querySelectorAll('.mermaid');
+                    const mermaidElements = document.querySelectorAll('.content-card .mermaid');
                     if (mermaidElements.length > 0) {
-                        console.log('Found mermaid elements:', mermaidElements.length);
-                        mermaid.run();
-                    } else {
-                        console.log('No mermaid elements found');
+                        mermaid.run({ nodes: mermaidElements });
+
+                        mermaidElements.forEach(el => {
+                            if (el.getAttribute('data-processed')) {
+                                el.style.cursor = 'pointer';
+                                el.onclick = () => {
+                                    const svgContent = el.innerHTML;
+                                    const originalMermaidCode = el.getAttribute('data-mermaid-code');
+                                    this.openDiagramModal(originalMermaidCode, svgContent);
+                                };
+                            }
+                        });
                     }
-                } else {
-                    console.log('Mermaid library not loaded');
                 }
             },
             renderMarkdown(markdown) {
                 if (typeof marked !== 'undefined') {
-                    // 머메이드 코드 블록을 div.mermaid로 변환
-                    const processedMarkdown = markdown.replace(/```mermaid\n([\s\S]*?)\n```/g, '<div class="mermaid">$1</div>');
+                    const processedMarkdown = markdown.replace(/```mermaid\n([\s\S]*?)\n```/g, (match, code) => {
+                        const encodedCode = encodeURIComponent(code);
+                        return `<div class="mermaid" data-mermaid-code="${encodedCode}">${code}</div>`;
+                    });
                     return marked.parse(processedMarkdown);
                 }
                 return markdown; // fallback if marked is not available
+            },
+            openDiagramModal(mermaidCode, svgContent) {
+                this.modalDiagramContent = decodeURIComponent(mermaidCode);
+                this.isDiagramModalVisible = true;
+                
+                this.$nextTick(() => {
+                    const modalMermaidContainer = this.$el.querySelector('#modal-mermaid-content');
+                    if(modalMermaidContainer) {
+                        modalMermaidContainer.innerHTML = '';
+                        modalMermaidContainer.removeAttribute('data-processed');
+                        modalMermaidContainer.textContent = this.modalDiagramContent;
+                        mermaid.run({ nodes: [modalMermaidContainer] });
+                        lucide.createIcons();
+                    }
+                });
+            },
+            closeDiagramModal() {
+                this.isDiagramModalVisible = false;
+                this.modalDiagramContent = '';
             },
             toggleDropdown(menuName) {
                 this.isDropdownOpen[menuName] = !this.isDropdownOpen[menuName];
