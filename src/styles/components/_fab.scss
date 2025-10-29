@@ -109,4 +109,15 @@
     left: $spacing-5;
     bottom: $spacing-8;
   }
+
+  .fab-menu {
+    right: auto;
+    left: 0;
+  }
+
+  .fab-item {
+    &:hover {
+      transform: translateX(4px);
+    }
+  }
 }
