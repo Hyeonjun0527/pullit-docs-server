@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     menu.items.forEach(item => {
                         sections[item.id] = {
                             title: item.title,
-                            markdownUrl: `/content/${item.id}.md`,
+                            markdownUrl: `/content/${menu.category}/${item.id}.md`,
                             markdown: '',
                             loaded: false
                         };

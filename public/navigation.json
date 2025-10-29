@@ -2,6 +2,7 @@
     {
         "name": "개요",
         "icon": "rocket",
+        "category": "overview",
         "items": [
             { "id": "introduction", "title": "문서 개요", "icon": "book-open" },
             { "id": "philosophy", "title": "개발 철학", "icon": "lightbulb" },
@@ -11,6 +12,7 @@
     {
         "name": "개발 프로세스",
         "icon": "settings",
+        "category": "development-process",
         "items": [
             { "id": "git-convention", "title": "Git 컨벤션", "icon": "git-branch" },
             { "id": "api-design", "title": "API 설계", "icon": "code" }
@@ -19,6 +21,7 @@
     {
         "name": "배포 프로세스",
         "icon": "upload",
+        "category": "deployment-process",
         "items": [
             { "id": "deploy-overview", "title": "배포 개요", "icon": "info" },
             { "id": "deploy-ec2-setup", "title": "1. EC2 서버 설정", "icon": "server" },
@@ -32,6 +35,7 @@
     {
         "name": "기술 표준",
         "icon": "file-text",
+        "category": "technical-standards",
         "items": [
             { "id": "code-convention", "title": "코딩 컨벤션", "icon": "code-2" },
             { "id": "environment-setup", "title": "개발 환경 설정", "icon": "monitor" }
@@ -40,6 +44,7 @@
     {
         "name": "팀 리소스",
         "icon": "folder",
+        "category": "team-resources",
         "items": [
             { "id": "team-resources", "title": "팀 프로젝트 페이지", "icon": "external-link" }
         ]
