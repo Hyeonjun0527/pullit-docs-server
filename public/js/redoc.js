@@ -1,7 +1,6 @@
 // Redoc 페이지 JavaScript
 document.addEventListener('DOMContentLoaded', function() {
     const refreshBtn = document.getElementById('refresh-btn');
-    const statusSpan = document.getElementById('status');
     const autoRefreshBtn = document.getElementById('auto-refresh-btn');
     const fabToggle = document.getElementById('fab-toggle');
     const fabMenu = document.getElementById('fab-menu');
@@ -10,6 +9,25 @@ document.addEventListener('DOMContentLoaded', function() {
     let isFabExpanded = false;
     let currentETag = null;
     let isAutoRefreshEnabled = false;
+    let toastTimeout;
+
+    function showToast(message) {
+        if (toastTimeout) clearTimeout(toastTimeout);
+
+        let toast = document.querySelector('.toast-notification');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            document.body.appendChild(toast);
+        }
+
+        toast.textContent = message;
+        toast.classList.add('show');
+
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
 
     // FAB toggle functionality
     fabToggle.addEventListener('click', () => {
@@ -29,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isRefreshing) return;
         isRefreshing = true;
         refreshBtn.disabled = true;
-        statusSpan.textContent = '페이지 새로고침 중...';
+        showToast('페이지 새로고침 중...');
         
         // 페이지를 완전히 새로고침하여 Redoc을 다시 로드합니다.
         window.location.reload();
@@ -37,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 초기 로드는 Redoc.init을 직접 호출합니다.
     async function initialLoad() {
-        statusSpan.textContent = '문서 로딩 중...';
+        showToast('문서 로딩 중...');
 
         try {
             const response = await fetch(SPEC_URL);
@@ -48,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(`초기 ETag: ${currentETag}`);
         } catch (error) {
             console.error(error);
-            statusSpan.textContent = '문서 로드 실패';
+            showToast('문서 로드 실패');
             return;
         }
 
@@ -71,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             redocContainer,
             () => { // Callback on success
                 const now = new Date();
-                statusSpan.textContent = `갱신 완료 (${now.toLocaleTimeString()})`;
+                showToast(`갱신 완료 (${now.toLocaleTimeString()})`);
                 
                 // Re-initialize Lucide icons after Redoc loads
                 if (typeof lucide !== 'undefined') {
@@ -84,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function checkForUpdates() {
         if (!currentETag) return;
 
-        statusSpan.textContent = '변경 사항 확인 중...';
+        showToast('변경 사항 확인 중...');
         try {
             const response = await fetch(SPEC_URL, {
                 headers: {
@@ -93,15 +111,15 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (response.status === 200) {
-                statusSpan.textContent = '새로운 버전 발견! 페이지를 새로고칩니다...';
-                window.location.reload();
+                showToast('새로운 버전 발견! 페이지를 새로고칩니다...');
+                setTimeout(() => window.location.reload(), 1500);
             } else if (response.status === 304) {
                 const now = new Date();
-                statusSpan.textContent = `변경 없음 (${now.toLocaleTimeString()})`;
+                showToast(`변경 없음 (${now.toLocaleTimeString()})`);
             }
         } catch (error) {
             console.error('업데이트 확인 중 오류:', error);
-            statusSpan.textContent = '업데이트 확인 실패';
+            showToast('업데이트 확인 실패');
         }
     }
 
@@ -114,14 +132,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isAutoRefreshEnabled) {
             if (autoRefreshInterval) clearInterval(autoRefreshInterval);
             autoRefreshInterval = setInterval(checkForUpdates, 10000);
-            statusSpan.textContent = '자동 갱신 활성화됨';
+            showToast('자동 갱신 활성화됨');
             checkForUpdates(); // 활성화 시 즉시 확인
         } else {
             if (autoRefreshInterval) {
                 clearInterval(autoRefreshInterval);
                 autoRefreshInterval = null;
             }
-            statusSpan.textContent = '자동 갱신 비활성화됨';
+            showToast('자동 갱신 비활성화됨');
         }
     });
 
