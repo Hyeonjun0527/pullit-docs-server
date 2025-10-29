@@ -1,0 +1,47 @@
+[
+    {
+        "name": "개요",
+        "icon": "rocket",
+        "items": [
+            { "id": "introduction", "title": "문서 개요", "icon": "book-open" },
+            { "id": "philosophy", "title": "개발 철학", "icon": "lightbulb" },
+            { "id": "maintainers", "title": "Maintainers", "icon": "users" }
+        ]
+    },
+    {
+        "name": "개발 프로세스",
+        "icon": "settings",
+        "items": [
+            { "id": "git-convention", "title": "Git 컨벤션", "icon": "git-branch" },
+            { "id": "api-design", "title": "API 설계", "icon": "code" }
+        ]
+    },
+    {
+        "name": "배포 프로세스",
+        "icon": "upload",
+        "items": [
+            { "id": "deploy-overview", "title": "배포 개요", "icon": "info" },
+            { "id": "deploy-ec2-setup", "title": "1. EC2 서버 설정", "icon": "server" },
+            { "id": "deploy-docker-build", "title": "2. Docker 빌드 전략", "icon": "package" },
+            { "id": "deploy-docker-compose", "title": "3. EC2 컨테이너 실행", "icon": "play" },
+            { "id": "deploy-dns", "title": "4. DNS 및 도메인 연결", "icon": "globe" },
+            { "id": "deploy-nginx", "title": "5. Nginx 리버스 프록시", "icon": "shield" },
+            { "id": "deploy-https", "title": "6. HTTPS 적용", "icon": "lock" }
+        ]
+    },
+    {
+        "name": "기술 표준",
+        "icon": "file-text",
+        "items": [
+            { "id": "code-convention", "title": "코딩 컨벤션", "icon": "code-2" },
+            { "id": "environment-setup", "title": "개발 환경 설정", "icon": "monitor" }
+        ]
+    },
+    {
+        "name": "팀 리소스",
+        "icon": "folder",
+        "items": [
+            { "id": "team-resources", "title": "팀 프로젝트 페이지", "icon": "external-link" }
+        ]
+    }
+]

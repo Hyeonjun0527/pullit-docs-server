@@ -10,69 +10,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 collapsedSections: {},
                 isDiagramModalVisible: false,
                 modalDiagramContent: '',
-                navigation: [
-                    {
-                        name: '개요',
-                        icon: 'rocket',
-                        items: [
-                            { id: 'introduction', title: '문서 개요', icon: 'book-open' },
-                            { id: 'philosophy', title: '개발 철학', icon: 'lightbulb' },
-                            { id: 'maintainers', title: 'Maintainers', icon: 'users' }
-                        ]
-                    },
-                    {
-                        name: '개발 프로세스',
-                        icon: 'settings',
-                        items: [
-                            { id: 'git-convention', title: 'Git 컨벤션', icon: 'git-branch' },
-                            { id: 'api-design', title: 'API 설계', icon: 'code' }
-                        ]
-                    },
-                    {
-                        name: '배포 프로세스',
-                        icon: 'upload',
-                        items: [
-                            { id: 'deploy-overview', title: '배포 개요', icon: 'info' },
-                            { id: 'deploy-ec2-setup', title: '1. EC2 서버 설정', icon: 'server' },
-                            { id: 'deploy-docker-build', title: '2. Docker 빌드 전략', icon: 'package' },
-                            { id: 'deploy-docker-compose', title: '3. EC2 컨테이너 실행', icon: 'play' },
-                            { id: 'deploy-dns', title: '4. DNS 및 도메인 연결', icon: 'globe' },
-                            { id: 'deploy-nginx', title: '5. Nginx 리버스 프록시', icon: 'shield' },
-                            { id: 'deploy-https', title: '6. HTTPS 적용', icon: 'lock' }
-                        ]
-                    },
-                    {
-                        name: '기술 표준',
-                        icon: 'file-text',
-                        items: [
-                            { id: 'code-convention', title: '코딩 컨벤션', icon: 'code-2' },
-                            { id: 'environment-setup', title: '개발 환경 설정', icon: 'monitor' }
-                        ]
-                    },
-                    {
-                        name: '팀 리소스',
-                        icon: 'folder',
-                        items: [
-                            { id: 'team-resources', title: '팀 프로젝트 페이지', icon: 'external-link' }
-                        ]
+                navigation: [],
+                sections: {}
+            }
+        },
+        methods: {
+            async initializeApp() {
+                try {
+                    const response = await fetch('/navigation.json');
+                    if (!response.ok) throw new Error('Navigation config not found');
+                    this.navigation = await response.json();
+                    
+                    this.generateSectionsFromNavigation();
+
+                    const hash = window.location.hash.substring(1);
+                    if (this.sections[hash]) {
+                        this.showSection(hash, false);
+                    } else {
+                        this.showSection('introduction', false);
                     }
-                ],
-                sections: {
-                    introduction: {
-                        title: '👋 환영합니다!',
-                        markdownUrl: '/content/introduction.md',
-                        markdown: '',
-                        loaded: false
-                    },
-                    philosophy: {
-                        title: '개발 철학: 모든 행위에는 의도가 있어야 한다',
-                        markdownUrl: '/content/philosophy.md',
-                        markdown: '',
-                        loaded: false
-                    },
-                    maintainers: {
-                        title: 'Maintainers',
-                        html: `
+                } catch (error) {
+                    console.error("Failed to initialize the app:", error);
+                }
+            },
+            generateSectionsFromNavigation() {
+                const sections = {};
+                this.navigation.forEach(menu => {
+                    menu.items.forEach(item => {
+                        sections[item.id] = {
+                            title: item.title,
+                            markdownUrl: `/content/${item.id}.md`,
+                            markdown: '',
+                            loaded: false
+                        };
+                    });
+                });
+
+                sections['maintainers'] = {
+                    title: 'Maintainers',
+                    html: `
                         <style>
                             .maintainer-grid {
                                 display: grid;
@@ -194,74 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                     `
-                    },
-                    'git-convention': {
-                        title: 'Git 컨벤션',
-                        markdownUrl: '/content/git-convention.md',
-                        markdown: '',
-                        loaded: false
-                    },
-                    'api-design': {
-                        title: 'API 설계',
-                        markdownUrl: '/content/api-design.md',
-                        markdown: '',
-                        loaded: false
-                    },
-                    'deploy-overview': {
-                        title: '배포 개요: EC2 무빌드 배포 시스템',
-                        markdownUrl: '/content/deploy-overview.md',
-                        markdown: '',
-                        loaded: false
-                    },
-                    'deploy-ec2-setup': {
-                        title: '1. EC2 서버 초기 설정',
-                        markdownUrl: '/content/deploy-ec2-setup.md',
-                        markdown: '',
-                        loaded: false
-                    },
-                    'deploy-docker-build': {
-                        title: '2. Docker 빌드 전략',
-                        markdown: `(내용 추가 예정)`
-                    },
-                    'deploy-docker-compose': {
-                        title: '3. EC2 컨테이너 실행',
-                        markdown: `(내용 추가 예정)`
-                    },
-                    'deploy-dns': {
-                        title: '4. DNS 및 도메인 연결',
-                        markdown: `(내용 추가 예정)`
-                    },
-                    'deploy-nginx': {
-                        title: '5. Nginx 리버스 프록시',
-                        markdown: `(내용 추가 예정)`
-                    },
-                    'deploy-https': {
-                        title: '6. HTTPS 적용',
-                        markdown: `(내용 추가 예정)`
-                    },
-                    'code-convention': {
-                        title: '코딩 컨벤션',
-                        markdownUrl: '/content/code-convention.md',
-                        markdown: '',
-                        loaded: false
-                    },
-                     'environment-setup': {
-                        title: '개발 환경 설정 (IntelliJ 기준)',
-                        markdownUrl: '/content/environment-setup.md',
-                        markdown: '',
-                        loaded: false
-                    },
-                    'team-resources': {
-                        title: '팀 프로젝트 페이지',
-                        markdownUrl: '/content/team-resources.md',
-                        markdown: '',
-                        loaded: false
-                    }
-                }
-            }
-        },
-        methods: {
-            async showSection(sectionId) {
+                };
+                
+                this.sections = sections;
+            },
+            async showSection(sectionId, updateHash = true) {
                 const section = this.sections[sectionId];
                 if (section && section.markdownUrl && !section.loaded) {
                     try {
@@ -278,7 +191,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 this.activeSection = sectionId;
-                window.location.hash = sectionId;
+                if(updateHash) {
+                    window.location.hash = sectionId;
+                }
                 this.closeAllDropdowns();
                 
                 this.$nextTick(() => {
@@ -377,13 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return this.collapsedSections[sectionName] || false;
             }
         },
-        mounted() {
-            const hash = window.location.hash.substring(1);
-            if (this.sections[hash]) {
-                this.showSection(hash);
-            } else {
-                this.showSection('introduction');
-            }
+        async mounted() {
+            await this.initializeApp();
             
             this.$nextTick(() => {
                 // 머메이드 초기화
