@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 theme: {
                     colors: {
                         primary: {
-                            main: '#7fcdcd',
-                            light: '#a8e6cf',
-                            dark: '#5fb3b3',
+                            main: '#16a34a',
+                            light: '#22c55e',
+                            dark: '#15803d',
                         },
                     },
                 },

@@ -489,8 +489,8 @@
   .mobile-nav-toggle {
     display: none;
     position: fixed;
-    bottom: $spacing-6;
-    left: $spacing-6;
+    bottom: $spacing-12;
+    right: $spacing-8;
     z-index: z-index('fixed');
     background: $primary-color;
     color: $white;
