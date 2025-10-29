@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isFabExpanded = false;
     let currentETag = null;
     let isAutoRefreshEnabled = false;
-    let toastTimeout;
+    let toastTimeout;//
 
     function showToast(message) {
         if (toastTimeout) clearTimeout(toastTimeout);
