@@ -176,6 +176,21 @@ source                --> source_folder : "이 폴더에 속한 자료"
 source_folder         --> member        : "이 회원의 자료 폴더"
 wrong_answer          --> member        : "회원의 오답 기록"
 wrong_answer          --> question      : "어떤 문항에서 틀렸는가"
+
+%% 🎨 Styling
+classDef user fill:#EBF5FB,stroke:#3498DB,stroke-width:2px
+classDef source fill:#E8F8F5,stroke:#1ABC9C,stroke-width:2px
+classDef question fill:#FEF9E7,stroke:#F1C40F,stroke-width:2px
+classDef folder fill:#F4ECF7,stroke:#9B59B6,stroke-width:2px
+classDef stats fill:#FDEDEC,stroke:#E74C3C,stroke-width:2px
+classDef infra fill:#EAEDED,stroke:#95A5A6,stroke-width:2px
+
+class member user
+class source,source_folder source
+class question,question_multiple_choice,question_options,question_set,question_set_source,question_short_answer,question_true_false,marking_result,wrong_answer question
+class common_folder folder
+class learn_stats,learn_stats_daily stats
+class migration_history,outbox_event,processed_event infra
 ```
 
 ## 3. 테이블 상세 설명

@@ -15,6 +15,7 @@ graph TD
     subgraph "Pullit Platform (Single EC2 Instance)"
         Nginx["<b>Nginx</b><br>Reverse Proxy<br>SSL Termination"]
         Backend["Pullit Backend<br>(Spring Boot)"]
+        DB["<b>MariaDB</b><br>Data Persistence"]
 
         Nginx --> Backend
     end
@@ -22,7 +23,6 @@ graph TD
     subgraph "External Services"
         S3["<b>AWS S3</b><br>File Storage"]
         Gemini["<b>Google Gemini API</b><br>AI Processing"]
-        DB["<b>MariaDB</b><br>Data Persistence"]
     end
 
     %% Interactions

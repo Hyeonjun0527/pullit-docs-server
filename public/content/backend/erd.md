@@ -45,6 +45,21 @@ erDiagram
     OUTBOX_EVENT
     PROCESSED_EVENT
     MIGRATION_HISTORY
+
+    %% Styling
+    classDef user fill:#EBF5FB,stroke:#3498DB,stroke-width:2px
+    classDef source fill:#E8F8F5,stroke:#1ABC9C,stroke-width:2px
+    classDef question fill:#FEF9E7,stroke:#F1C40F,stroke-width:2px
+    classDef folder fill:#F4ECF7,stroke:#9B59B6,stroke-width:2px
+    classDef stats fill:#FDEDEC,stroke:#E74C3C,stroke-width:2px
+    classDef infra fill:#EAEDED,stroke:#95A5A6,stroke-width:2px
+
+    class MEMBER user
+    class SOURCE,SOURCE_FOLDER source
+    class QUESTION,QUESTION_MULTIPLE_CHOICE,QUESTION_OPTIONS,QUESTION_SET,QUESTION_SET_SOURCE,QUESTION_SHORT_ANSWER,QUESTION_TRUE_FALSE,MARKING_RESULT,WRONG_ANSWER question
+    class COMMON_FOLDER folder
+    class LEARN_STATS,LEARN_STATS_DAILY stats
+    class OUTBOX_EVENT,PROCESSED_EVENT,MIGRATION_HISTORY infra
 ```
 
 ## 3. 핵심 도메인 설명
