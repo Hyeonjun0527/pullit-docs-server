@@ -38,15 +38,12 @@
             { "id": "03-cicd", "title": "CI/CD", "icon": "git-pull-request" },
             { "id": "04-initial-setup", "title": "초기 세팅", "icon": "settings-2" },
             { "id": "05-pr-guide", "title": "PR 가이드", "icon": "git-merge" },
-            {
-                "title": "FE-BE 통신",
-                "icon": "arrow-left-right",
-                "items": [
+            
                     { "id": "Communication-between-the-front-end-and-back-end/06-api-calls", "title": "API 호출과 설정" },
                     { "id": "Communication-between-the-front-end-and-back-end/07-file-upload", "title": "파일 업로드" },
                     { "id": "Communication-between-the-front-end-and-back-end/08-sse-connection", "title": "SSE 연결" }
-                ]
-            }
+
+            
         ]
     },
     {

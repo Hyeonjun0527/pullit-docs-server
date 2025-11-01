@@ -305,17 +305,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof lucide !== 'undefined') {
                     lucide.createIcons();
                 }
-            });
 
-            window.addEventListener('click', (event) => {
-                if (!this.$el.querySelector('.nav-menu').contains(event.target)) {
-                    this.closeAllDropdowns();
-                }
-                
-                // Close FAB when clicking outside
-                if (!this.$el.querySelector('.fab-container').contains(event.target)) {
-                    this.isFabExpanded = false;
-                }
+                // Attach event listeners after the DOM is fully rendered
+                window.addEventListener('click', (event) => {
+                    const navMenu = this.$el.querySelector('.nav-menu');
+                    const fabContainer = this.$el.querySelector('.fab-container');
+
+                    if (navMenu && !navMenu.contains(event.target)) {
+                        this.closeAllDropdowns();
+                    }
+                    
+                    if (fabContainer && !fabContainer.contains(event.target)) {
+                        this.isFabExpanded = false;
+                    }
+                });
             });
         }
     });
