@@ -9,7 +9,7 @@
 ```mermaid
 graph TD
     subgraph "User"
-        Client["Browser / Mobile"]
+        Client["Browser"]
     end
 
     subgraph "Pullit Platform (Single EC2 Instance)"
