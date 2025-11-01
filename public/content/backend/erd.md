@@ -40,6 +40,11 @@ erDiagram
 
     COMMON_FOLDER ||--o{ QUESTION_SET : "문제집이 속한 공용 폴더"
     SOURCE_FOLDER ||--o{ SOURCE : "이 폴더에 속한 자료"
+
+    %% Infrastructure Tables
+    OUTBOX_EVENT
+    PROCESSED_EVENT
+    MIGRATION_HISTORY
 ```
 
 ## 3. 핵심 도메인 설명
