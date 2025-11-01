@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         el.ondblclick = () => {
                             const svg = el.querySelector('svg');
                             if (svg) {
-                                localStorage.setItem('mermaidSVG', svg.outerHTML);
+                                sessionStorage.setItem('mermaidSVG', svg.outerHTML);
                                 window.open('/diagram-viewer.html', '_blank');
                             }
                         };
