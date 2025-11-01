@@ -24,7 +24,8 @@
         "category": "backend",
         "items": [
             { "id": "architecture", "title": "아키텍처", "icon": "layout-grid" },
-            { "id": "erd", "title": "ERD", "icon": "database" }
+            { "id": "erd", "title": "ERD", "icon": "database" },
+            { "id": "database-schema", "title": "상세 스키마", "icon": "table" }
         ]
     },
     {
