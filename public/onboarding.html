@@ -132,17 +132,6 @@
             </div>
         </aside>
         
-        <!-- Diagram Modal -->
-        <div v-if="isDiagramModalVisible" class="diagram-modal-overlay" @click="closeDiagramModal">
-            <div class="diagram-modal-content" @click.stop>
-                <button class="modal-close-btn" @click="closeDiagramModal">
-                    <i data-lucide="x"></i>
-                </button>
-                <div id="modal-mermaid-content" class="mermaid">
-                    {{ modalDiagramContent }}
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="/js/onboarding.js" defer></script>

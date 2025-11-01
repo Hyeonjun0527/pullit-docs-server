@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 isMobileSidebarOpen: false,
                 isSidebarCollapsed: false,
                 collapsedSections: {},
-                isDiagramModalVisible: false,
-                modalDiagramContent: '',
                 navigation: [],
                 sections: {}
             }
@@ -217,12 +215,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     mermaidElements.forEach(el => {
-                        el.ondblclick = null; 
                         el.ondblclick = () => {
-                            const encodedCode = el.getAttribute('data-mermaid-code');
-                            if (encodedCode) {
-                                const code = decodeURIComponent(encodedCode);
-                                this.openDiagramModal(code);
+                            const svg = el.querySelector('svg');
+                            if (svg) {
+                                localStorage.setItem('mermaidSVG', svg.outerHTML);
+                                window.open('/diagram-viewer.html', '_blank');
                             }
                         };
                         el.style.cursor = 'pointer';
@@ -246,26 +243,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
                 
                 return marked.parse(markdown, { renderer });
-            },
-            openDiagramModal(mermaidCode) {
-                this.modalDiagramContent = mermaidCode;
-                this.isDiagramModalVisible = true;
-                this.$nextTick(() => {
-                    const modalMermaidContainer = document.getElementById('modal-mermaid-content');
-                    if(modalMermaidContainer) {
-                        modalMermaidContainer.innerHTML = mermaidCode;
-                        window.mermaid.run({
-                            nodes: [modalMermaidContainer]
-                        });
-                    }
-                    if (typeof lucide !== 'undefined') {
-                        lucide.createIcons();
-                    }
-                });
-            },
-            closeDiagramModal() {
-                this.isDiagramModalVisible = false;
-                this.modalDiagramContent = '';
             },
             toggleDropdown(menuName) {
                 this.isDropdownOpen[menuName] = !this.isDropdownOpen[menuName];
