@@ -184,26 +184,6 @@ classDef question fill:#FEF9E7,stroke:#F1C40F,stroke-width:2px
 classDef folder fill:#F4ECF7,stroke:#9B59B6,stroke-width:2px
 classDef stats fill:#FDEDEC,stroke:#E74C3C,stroke-width:2px
 classDef infra fill:#EAEDED,stroke:#95A5A6,stroke-width:2px
-
-class member user
-class source source
-class source_folder source
-class question question
-class question_multiple_choice question
-class question_options question
-class question_set question
-class question_set_source question
-class question_short_answer question
-class question_true_false question
-class marking_result question
-class wrong_answer question
-class common_folder folder
-class learn_stats stats
-class learn_stats_daily stats
-class migration_history infra
-class outbox_event infra
-class processed_event infra
-
 ```
 
 ## 3. 테이블 상세 설명
