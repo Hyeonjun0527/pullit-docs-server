@@ -6,7 +6,19 @@
     <title>Pullit 온보딩 가이드</title>
     <link rel="stylesheet" href="/css/main.css">
     <script src="https://unpkg.com/vue@3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.esm.min.mjs';
+        window.mermaid = mermaid;
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'default',
+            layout: 'elk',
+            er: {
+                layoutDirection: 'TB',
+                diagramPadding: 20
+            }
+        });
+    </script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
 </head>
@@ -108,7 +120,7 @@
                 </a>
             </div>
         </aside>
-
+        
         <!-- Diagram Modal -->
         <div v-if="isDiagramModalVisible" class="diagram-modal-overlay" @click="closeDiagramModal">
             <div class="diagram-modal-content" @click.stop>

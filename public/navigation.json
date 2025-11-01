@@ -23,7 +23,8 @@
         "icon": "server",
         "category": "backend",
         "items": [
-            { "id": "architecture", "title": "아키텍처", "icon": "layout-grid" }
+            { "id": "architecture", "title": "아키텍처", "icon": "layout-grid" },
+            { "id": "erd", "title": "ERD", "icon": "database" }
         ]
     },
     {
@@ -35,12 +36,14 @@
             { "id": "01-logo-and-style", "title": "로고와 스타일", "icon": "palette" },
             { "id": "02-tech-stack", "title": "기술 스택", "icon": "layers" },
             { "id": "02-1-tech-stack-decision", "title": "기술 스택 선정 근거", "icon": "check-square" },
+            { "id": "05-Git-Rules", "title": "Git 규칙", "icon": "git-branch" },
+            { "id": "06-Directory-Structure", "title": "디렉터리 구조", "icon": "folder-tree" },
             { "id": "03-cicd", "title": "CI/CD", "icon": "git-pull-request" },
             { "id": "04-initial-setup", "title": "초기 세팅", "icon": "settings-2" },
-            { "id": "05-pr-guide", "title": "PR 가이드", "icon": "git-merge" },
-            { "id": "06-api-calls", "title": "API 호출과 설정" },
-            { "id": "07-file-upload", "title": "파일 업로드" },
-            { "id": "08-sse-connection", "title": "SSE 연결" }
+            { "id": "08-api-calls", "title": "API 호출과 설정", "icon": "arrow-left-right" },
+            { "id": "09-file-upload", "title": "파일 업로드", "icon": "upload-cloud" },
+            { "id": "10-sse-connection", "title": "SSE 연결", "icon": "wifi" },
+            { "id": "07-pr-guide", "title": "PR 가이드", "icon": "git-merge" }
         ]
     },
     {

@@ -209,45 +209,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             },
             initializeMermaid() {
-                if (typeof mermaid !== 'undefined') {
-                    const mermaidElements = document.querySelectorAll('.content-card .mermaid');
-                    if (mermaidElements.length > 0) {
-                        mermaid.run({ nodes: mermaidElements });
+                if (window.mermaid) {
+                    const mermaidElements = this.$el.parentElement.querySelectorAll('.main-content .mermaid');
+                    
+                    window.mermaid.run({
+                        nodes: mermaidElements
+                    });
 
-                        mermaidElements.forEach(el => {
-                            if (el.getAttribute('data-processed')) {
-                                el.style.cursor = 'pointer';
-                                el.onclick = () => {
-                                    const svgContent = el.innerHTML;
-                                    const originalMermaidCode = el.getAttribute('data-mermaid-code');
-                                    this.openDiagramModal(originalMermaidCode, svgContent);
-                                };
+                    mermaidElements.forEach(el => {
+                        el.ondblclick = null; 
+                        el.ondblclick = () => {
+                            const encodedCode = el.getAttribute('data-mermaid-code');
+                            if (encodedCode) {
+                                const code = decodeURIComponent(encodedCode);
+                                this.openDiagramModal(code);
                             }
-                        });
-                    }
+                        };
+                        el.style.cursor = 'pointer';
+                    });
                 }
             },
+            
             renderMarkdown(markdown) {
-                if (typeof marked !== 'undefined') {
-                    const processedMarkdown = markdown.replace(/```mermaid\n([\s\S]*?)\n```/g, (match, code) => {
+                if (!markdown) return '';
+                
+                // marked.js 옵션 설정
+                const renderer = new marked.Renderer();
+
+                // Mermaid 코드 블록을 그대로 유지 (HTML 변환 방지)
+                renderer.code = (code, language) => {
+                    if (language === 'mermaid') {
                         const encodedCode = encodeURIComponent(code);
                         return `<div class="mermaid" data-mermaid-code="${encodedCode}">${code}</div>`;
-                    });
-                    return marked.parse(processedMarkdown);
-                }
-                return markdown; // fallback if marked is not available
-            },
-            openDiagramModal(mermaidCode, svgContent) {
-                this.modalDiagramContent = decodeURIComponent(mermaidCode);
-                this.isDiagramModalVisible = true;
+                    }
+                    return `<pre><code class="language-${language}">${code}</code></pre>`;
+                };
                 
+                return marked.parse(markdown, { renderer });
+            },
+            openDiagramModal(mermaidCode) {
+                this.modalDiagramContent = mermaidCode;
+                this.isDiagramModalVisible = true;
                 this.$nextTick(() => {
-                    const modalMermaidContainer = this.$el.querySelector('#modal-mermaid-content');
+                    const modalMermaidContainer = document.getElementById('modal-mermaid-content');
                     if(modalMermaidContainer) {
-                        modalMermaidContainer.innerHTML = '';
-                        modalMermaidContainer.removeAttribute('data-processed');
-                        modalMermaidContainer.textContent = this.modalDiagramContent;
-                        mermaid.run({ nodes: [modalMermaidContainer] });
+                        modalMermaidContainer.innerHTML = mermaidCode;
+                        window.mermaid.run({
+                            nodes: [modalMermaidContainer]
+                        });
+                    }
+                    if (typeof lucide !== 'undefined') {
                         lucide.createIcons();
                     }
                 });
@@ -308,8 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Attach event listeners after the DOM is fully rendered
                 window.addEventListener('click', (event) => {
-                    const navMenu = this.$el.querySelector('.nav-menu');
-                    const fabContainer = this.$el.querySelector('.fab-container');
+                    const navMenu = this.$el.parentElement.querySelector('.nav-menu');
+                    const fabContainer = this.$el.parentElement.querySelector('.fab-container');
 
                     if (navMenu && !navMenu.contains(event.target)) {
                         this.closeAllDropdowns();

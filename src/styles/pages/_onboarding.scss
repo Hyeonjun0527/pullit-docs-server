@@ -741,55 +741,53 @@
 
 // Diagram Modal Styles
 .diagram-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    padding: 20px;
-    box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($black, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: $z-modal;
+  backdrop-filter: blur(5px);
 }
 
 .diagram-modal-content {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    max-width: 90vw;
-    max-height: 90vh;
-    overflow: auto;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  background-color: $white;
+  padding: 2rem;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-2xl;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    .mermaid {
-        svg {
-            max-width: 100%;
-            height: auto;
-        }
+  .mermaid {
+    width: 100%;
+    height: 100%;
+    svg {
+      width: 100%;
+      height: 100%;
     }
+  }
 }
 
 .modal-close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    line-height: 1;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $gray-600;
 
-    i {
-        width: 28px;
-        height: 28px;
-        color: #6b7280;
-    }
+  &:hover {
+    color: $black;
+  }
 }
 
 // ===== 애니메이션 =====
