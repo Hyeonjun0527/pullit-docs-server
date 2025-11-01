@@ -27,6 +27,29 @@
         ]
     },
     {
+        "name": "프론트 문서",
+        "icon": "laptop",
+        "category": "frontend",
+        "items": [
+            { "id": "00-introduction", "title": "소개", "icon": "file-text" },
+            { "id": "01-logo-and-style", "title": "로고와 스타일", "icon": "palette" },
+            { "id": "02-tech-stack", "title": "기술 스택", "icon": "layers" },
+            { "id": "02-1-tech-stack-decision", "title": "기술 스택 선정 근거", "icon": "check-square" },
+            { "id": "03-cicd", "title": "CI/CD", "icon": "git-pull-request" },
+            { "id": "04-initial-setup", "title": "초기 세팅", "icon": "settings-2" },
+            { "id": "05-pr-guide", "title": "PR 가이드", "icon": "git-merge" },
+            {
+                "title": "FE-BE 통신",
+                "icon": "arrow-left-right",
+                "items": [
+                    { "id": "Communication-between-the-front-end-and-back-end/06-api-calls", "title": "API 호출과 설정" },
+                    { "id": "Communication-between-the-front-end-and-back-end/07-file-upload", "title": "파일 업로드" },
+                    { "id": "Communication-between-the-front-end-and-back-end/08-sse-connection", "title": "SSE 연결" }
+                ]
+            }
+        ]
+    },
+    {
         "name": "배포 프로세스",
         "icon": "upload",
         "category": "deployment-process",
