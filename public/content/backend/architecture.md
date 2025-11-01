@@ -1,6 +1,6 @@
 # Pullit 아키텍처 설계에 담긴 고민과 결정
 
-이 문서는 Pullit의 현재 아키텍처가 만들어지기까지의 고민과 선택을 담은 기록입니다. 여러 배포 방식을 직접 써보며 비용, 안정성, 그리고 현재 단계에서의 학습 목표 사이의 균형점을 찾고자 했습니다. 특히 실제 사용자가 거의 없는 초기 프로젝트에서 '무엇을 지금 도입하고 무엇을 나중으로 미룰 것인가'가 핵심 과제였습니다. 덕분에 이러한 단순함 속에서 비즈니스 로직 개발이라는 본질에 더 많은 시간을 할애할 수 있었습니다.
+이 문서는 Pullit의 현재 아키텍처가 만들어지기까지의 고민과 선택을 담은 기록입니다. 여러 배포 방식을 직접 써보며 비용, 안정성, 그리고 현재 단계에서의 학습 목표 사이의 균형점을 찾고자 했습니다. 특히 실제 사용자가 거의 없는 초기 프로젝트에서 **'무엇을 지금 도입하고 무엇을 나중으로 미룰 것인가'**가 핵심 과제였습니다. 덕분에 이러한 단순함 속에서 비즈니스 로직 개발이라는 본질에 더 많은 시간을 할애할 수 있었습니다.
 
 ## 1. 현재 아키텍처: 단순함 속의 효율성
 
@@ -23,6 +23,7 @@ graph TD
     subgraph "External Services"
         S3["<b>AWS S3</b><br>File Storage"]
         Gemini["<b>Google Gemini API</b><br>AI Processing"]
+        Kakao["<b>Kakao API</b><br>Social Login"]
     end
 
     %% Interactions
@@ -37,12 +38,16 @@ graph TD
 
     Gemini -- "데이터 참조" --> S3
 
+    Client -- "OAuth 2.0 인증" --> Kakao
+    Backend -- "사용자 정보 조회" --> Kakao
+
     %% Styling
     style Nginx fill:#E8F8F5,stroke:#16A085,stroke-width:2px
     style Backend fill:#D5F5E3,stroke:#333,stroke-width:1px
     style S3 fill:#FFF3CD,stroke:#333,stroke-width:2px
     style Gemini fill:#EBF5FB,stroke:#333,stroke-width:2px
     style DB fill:#FADBD8,stroke:#333,stroke-width:2px
+    style Kakao fill:#FFF9C4,stroke:#FBC02D,stroke-width:2px
 ```
 
 ### [흐름] 요청은 어떻게 처리되는가?
