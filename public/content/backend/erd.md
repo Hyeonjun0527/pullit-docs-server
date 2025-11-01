@@ -44,10 +44,6 @@
 ## 3. 전체 ERD
 
 ```mermaid
----
-config:
-  layout: elk
----
 erDiagram
     MEMBER ||--o{ LEARN_STATS : "회원이 주인인 통계"
     MEMBER ||--o{ LEARN_STATS_DAILY : "회원별 하루치 학습기록"

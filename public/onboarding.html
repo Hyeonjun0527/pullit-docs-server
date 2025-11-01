@@ -7,16 +7,27 @@
     <link rel="stylesheet" href="/css/main.css">
     <script src="https://unpkg.com/vue@3"></script>
     <script type="module">
+        // 1. Mermaid 코어 라이브러리 임포트
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.esm.min.mjs';
+        
+        // 2. ELK 레이아웃 엔진 임포트
+        import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@latest/dist/mermaid-layout-elk.esm.min.mjs';
+
+        // 3. Mermaid에 ELK 레이아웃 엔진 등록
+        mermaid.registerLayoutLoaders(elkLayouts);
+
+        // 4. Mermaid 초기화 (ELK 옵션 포함)
         window.mermaid = mermaid;
-        mermaid.initialize({ 
-            startOnLoad: false,
-            theme: 'default',
-            layout: 'elk',
-            er: {
-                layoutDirection: 'TB',
-                diagramPadding: 20
-            }
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'default',
+          layout: 'elk',
+          elk: {
+            nodePlacementStrategy: 'LINEAR_SEGMENTS'
+          },
+          er: {
+            layoutDirection: 'TB'
+          }
         });
     </script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
