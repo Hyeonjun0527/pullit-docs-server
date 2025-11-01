@@ -35,11 +35,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const diagramContainer = document.getElementById('diagram-container');
-            const svgContent = localStorage.getItem('mermaidSVG');
+            const svgContent = sessionStorage.getItem('mermaidSVG');
 
             if (svgContent) {
                 diagramContainer.innerHTML = svgContent;
-                localStorage.removeItem('mermaidSVG');
 
                 const svg = diagramContainer.querySelector('svg');
                 if (svg) {
