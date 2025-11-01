@@ -25,7 +25,9 @@
         "items": [
             { "id": "architecture", "title": "아키텍처", "icon": "layout-grid" },
             { "id": "erd", "title": "ERD", "icon": "database" },
-            { "id": "database-schema", "title": "상세 스키마", "icon": "table" }
+            { "id": "database-schema", "title": "상세 스키마", "icon": "table" },
+            { "id": "Gemini", "title": "Gemini 연동 가이드", "icon": "cpu" },
+            { "id": "Insomnia", "title": "Insomnia 온보딩", "icon": "send" }
         ]
     },
     {
