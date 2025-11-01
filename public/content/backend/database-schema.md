@@ -14,6 +14,15 @@
 classDiagram
 direction BT
 
+
+%% 🎨 Styling
+classDef user fill:#EBF5FB,stroke:#3498DB,stroke-width:2px
+classDef source fill:#E8F8F5,stroke:#1ABC9C,stroke-width:2px
+classDef question fill:#FEF9E7,stroke:#F1C40F,stroke-width:2px
+classDef folder fill:#F4ECF7,stroke:#9B59B6,stroke-width:2px
+classDef stats fill:#FDEDEC,stroke:#E74C3C,stroke-width:2px
+classDef infra fill:#EAEDED,stroke:#95A5A6,stroke-width:2px
+
 class common_folder {
    name varchar(255)
    sort_order int(11)
@@ -177,13 +186,6 @@ source_folder         --> member        : "이 회원의 자료 폴더"
 wrong_answer          --> member        : "회원의 오답 기록"
 wrong_answer          --> question      : "어떤 문항에서 틀렸는가"
 
-%% 🎨 Styling
-classDef user fill:#EBF5FB,stroke:#3498DB,stroke-width:2px
-classDef source fill:#E8F8F5,stroke:#1ABC9C,stroke-width:2px
-classDef question fill:#FEF9E7,stroke:#F1C40F,stroke-width:2px
-classDef folder fill:#F4ECF7,stroke:#9B59B6,stroke-width:2px
-classDef stats fill:#FDEDEC,stroke:#E74C3C,stroke-width:2px
-classDef infra fill:#EAEDED,stroke:#95A5A6,stroke-width:2px
 ```
 
 ## 3. 테이블 상세 설명
