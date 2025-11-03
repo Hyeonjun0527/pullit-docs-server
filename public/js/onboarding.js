@@ -200,6 +200,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         this.initializeMermaid();
                     }, 200);
                     
+                    // Syntax highlighting 적용
+                    if (typeof hljs !== 'undefined') {
+                        hljs.highlightAll();
+                    }
+                    
                     // Re-initialize Lucide icons after content change
                     if (typeof lucide !== 'undefined') {
                         lucide.createIcons();
