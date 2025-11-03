@@ -4,9 +4,9 @@
         "icon": "rocket",
         "category": "overview",
         "items": [
-            { "id": "introduction", "title": "문서 개요", "icon": "book-open" },
-            { "id": "philosophy", "title": "개발 철학", "icon": "lightbulb" },
-            { "id": "maintainers", "title": "Maintainers", "icon": "users" }
+            { "id": "introduction", "title": "1. 문서 개요", "icon": "book-open" },
+            { "id": "philosophy", "title": "2. 개발 철학", "icon": "lightbulb" },
+            { "id": "maintainers", "title": "3. Maintainers", "icon": "users" }
         ]
     },
     {
@@ -14,8 +14,8 @@
         "icon": "settings",
         "category": "development-process",
         "items": [
-            { "id": "git-convention", "title": "Git 컨벤션", "icon": "git-branch" },
-            { "id": "api-design", "title": "API 설계", "icon": "code" }
+            { "id": "git-convention", "title": "1. Git 컨벤션", "icon": "git-branch" },
+            { "id": "api-design", "title": "2. API 설계", "icon": "code" }
         ]
     },
     {
@@ -23,11 +23,11 @@
         "icon": "server",
         "category": "backend",
         "items": [
-            { "id": "architecture", "title": "아키텍처", "icon": "layout-grid" },
-            { "id": "erd", "title": "ERD", "icon": "database" },
-            { "id": "database-schema", "title": "상세 스키마", "icon": "table" },
-            { "id": "Gemini", "title": "Gemini 연동 가이드", "icon": "cpu" },
-            { "id": "Insomnia", "title": "Insomnia 온보딩", "icon": "send" }
+            { "id": "architecture", "title": "1. 아키텍처", "icon": "layout-grid" },
+            { "id": "erd", "title": "2. ERD", "icon": "database" },
+            { "id": "database-schema", "title": "3. 상세 스키마", "icon": "table" },
+            { "id": "Gemini", "title": "4. Gemini 연동 가이드", "icon": "cpu" },
+            { "id": "Insomnia", "title": "5. Insomnia 온보딩", "icon": "send" }
         ]
     },
     {
@@ -35,18 +35,18 @@
         "icon": "laptop",
         "category": "frontend",
         "items": [
-            { "id": "00-introduction", "title": "소개", "icon": "file-text" },
-            { "id": "01-logo-and-style", "title": "로고와 스타일", "icon": "palette" },
-            { "id": "02-tech-stack", "title": "기술 스택", "icon": "layers" },
-            { "id": "02-1-tech-stack-decision", "title": "기술 스택 선정 근거", "icon": "check-square" },
-            { "id": "05-Git-Rules", "title": "Git 규칙", "icon": "git-branch" },
-            { "id": "06-Directory-Structure", "title": "디렉터리 구조", "icon": "folder-tree" },
-            { "id": "03-cicd", "title": "CI/CD", "icon": "git-pull-request" },
-            { "id": "04-initial-setup", "title": "초기 세팅", "icon": "settings-2" },
-            { "id": "08-api-calls", "title": "API 호출과 설정", "icon": "arrow-left-right" },
-            { "id": "09-file-upload", "title": "파일 업로드", "icon": "upload-cloud" },
-            { "id": "10-sse-connection", "title": "SSE 연결", "icon": "wifi" },
-            { "id": "07-pr-guide", "title": "PR 가이드", "icon": "git-merge" }
+            { "id": "00-introduction", "title": "1. 소개", "icon": "file-text" },
+            { "id": "01-logo-and-style", "title": "2. 로고와 스타일", "icon": "palette" },
+            { "id": "02-tech-stack", "title": "3. 기술 스택", "icon": "layers" },
+            { "id": "02-1-tech-stack-decision", "title": "4. 기술 스택 선정 근거", "icon": "check-square" },
+            { "id": "05-Git-Rules", "title": "5. Git 규칙", "icon": "git-branch" },
+            { "id": "06-Directory-Structure", "title": "6. 디렉터리 구조", "icon": "folder-tree" },
+            { "id": "03-cicd", "title": "7. CI/CD", "icon": "git-pull-request" },
+            { "id": "04-initial-setup", "title": "8. 초기 세팅", "icon": "settings-2" },
+            { "id": "08-api-calls", "title": "9. API 호출과 설정", "icon": "arrow-left-right" },
+            { "id": "09-file-upload", "title": "10. 파일 업로드", "icon": "upload-cloud" },
+            { "id": "10-sse-connection", "title": "11. SSE 연결", "icon": "wifi" },
+            { "id": "07-pr-guide", "title": "12. PR 가이드", "icon": "git-merge" }
         ]
     },
     {
@@ -54,13 +54,13 @@
         "icon": "upload",
         "category": "deployment-process",
         "items": [
-            { "id": "deploy-overview", "title": "배포 개요", "icon": "info" },
-            { "id": "deploy-ec2-setup", "title": "1. EC2 서버 설정", "icon": "server" },
-            { "id": "deploy-docker-build", "title": "2. Docker 빌드 전략", "icon": "package" },
-            { "id": "deploy-docker-compose", "title": "3. EC2 컨테이너 실행", "icon": "play" },
-            { "id": "deploy-dns", "title": "4. DNS 및 도메인 연결", "icon": "globe" },
-            { "id": "deploy-nginx", "title": "5. Nginx 리버스 프록시", "icon": "shield" },
-            { "id": "deploy-https", "title": "6. HTTPS 적용", "icon": "lock" }
+            { "id": "deploy-overview", "title": "1. 배포 개요", "icon": "info" },
+            { "id": "deploy-ec2-setup", "title": "2. EC2 서버 설정", "icon": "server" },
+            { "id": "deploy-docker-build", "title": "3. Docker 빌드 전략", "icon": "package" },
+            { "id": "deploy-docker-compose", "title": "4. EC2 컨테이너 실행", "icon": "play" },
+            { "id": "deploy-dns", "title": "5. DNS 및 도메인 연결", "icon": "globe" },
+            { "id": "deploy-nginx", "title": "6. Nginx 리버스 프록시", "icon": "shield" },
+            { "id": "deploy-https", "title": "7. HTTPS 적용", "icon": "lock" }
         ]
     },
     {
@@ -68,8 +68,8 @@
         "icon": "file-text",
         "category": "technical-standards",
         "items": [
-            { "id": "code-convention", "title": "코딩 컨벤션", "icon": "code-2" },
-            { "id": "environment-setup", "title": "개발 환경 설정", "icon": "monitor" }
+            { "id": "code-convention", "title": "1. 코딩 컨벤션", "icon": "code-2" },
+            { "id": "environment-setup", "title": "2. 개발 환경 설정", "icon": "monitor" }
         ]
     },
     {
@@ -77,7 +77,7 @@
         "icon": "folder",
         "category": "team-resources",
         "items": [
-            { "id": "team-resources", "title": "팀 프로젝트 페이지", "icon": "external-link" }
+            { "id": "team-resources", "title": "1. 팀 프로젝트 페이지", "icon": "external-link" }
         ]
     }
 ]
