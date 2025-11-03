@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (this.sections[hash]) {
                         this.showSection(hash, false);
                     } else {
-                        this.showSection('introduction', false);
+                        this.showSection('01-introduction', false);
                     }
                 } catch (error) {
                     console.error("Failed to initialize the app:", error);

@@ -4,9 +4,21 @@
         "icon": "rocket",
         "category": "overview",
         "items": [
-            { "id": "introduction", "title": "1. 문서 개요", "icon": "book-open" },
-            { "id": "philosophy", "title": "2. 개발 철학", "icon": "lightbulb" },
-            { "id": "maintainers", "title": "3. Maintainers", "icon": "users" }
+            { "id": "01-introduction", "title": "1. 문서 개요", "icon": "book-open" },
+            { "id": "02-philosophy", "title": "2. 개발 철학", "icon": "lightbulb" },
+            { "id": "03-team-resources", "title": "3. 팀 리소스", "icon": "users" },
+            { "id": "maintainers", "title": "4. Maintainers", "icon": "shield" }
+        ]
+    },
+    {
+        "name": "온보딩 가이드",
+        "icon": "graduation-cap",
+        "category": "onboarding-guide",
+        "items": [
+            { "id": "01-Ground-Rules", "title": "1. 그라운드 룰", "icon": "handshake" },
+            { "id": "02-Scrum&Metting-Rules", "title": "2. 스크럼 및 회의 규칙", "icon": "calendar" },
+            { "id": "03-Documentation", "title": "3. 문서화 규칙", "icon": "file-text" },
+            { "id": "04-Insomnia", "title": "4. API 호출 가이드", "icon": "send" }
         ]
     },
     {
@@ -14,8 +26,8 @@
         "icon": "settings",
         "category": "development-process",
         "items": [
-            { "id": "git-convention", "title": "1. Git 컨벤션", "icon": "git-branch" },
-            { "id": "api-design", "title": "2. API 설계", "icon": "code" }
+            { "id": "01-git-convention", "title": "1. Git 컨벤션", "icon": "git-branch" },
+            { "id": "02-api-design", "title": "2. API 설계", "icon": "code" }
         ]
     },
     {
@@ -23,11 +35,10 @@
         "icon": "server",
         "category": "backend",
         "items": [
-            { "id": "architecture", "title": "1. 아키텍처", "icon": "layout-grid" },
-            { "id": "erd", "title": "2. ERD", "icon": "database" },
-            { "id": "database-schema", "title": "3. 상세 스키마", "icon": "table" },
-            { "id": "Gemini", "title": "4. Gemini 연동 가이드", "icon": "cpu" },
-            { "id": "Insomnia", "title": "5. Insomnia 온보딩", "icon": "send" }
+            { "id": "01-architecture", "title": "1. 아키텍처", "icon": "layout-grid" },
+            { "id": "02-erd", "title": "2. ERD", "icon": "database" },
+            { "id": "03-database-schema", "title": "3. 상세 스키마", "icon": "table" },
+            { "id": "04-Gemini", "title": "4. Gemini 연동 가이드", "icon": "cpu" }
         ]
     },
     {
@@ -54,13 +65,13 @@
         "icon": "upload",
         "category": "deployment-process",
         "items": [
-            { "id": "deploy-overview", "title": "1. 배포 개요", "icon": "info" },
-            { "id": "deploy-ec2-setup", "title": "2. EC2 서버 설정", "icon": "server" },
-            { "id": "deploy-docker-build", "title": "3. Docker 빌드 전략", "icon": "package" },
-            { "id": "deploy-docker-compose", "title": "4. EC2 컨테이너 실행", "icon": "play" },
-            { "id": "deploy-dns", "title": "5. DNS 및 도메인 연결", "icon": "globe" },
-            { "id": "deploy-nginx", "title": "6. Nginx 리버스 프록시", "icon": "shield" },
-            { "id": "deploy-https", "title": "7. HTTPS 적용", "icon": "lock" }
+            { "id": "01-deploy-overview", "title": "1. 배포 개요", "icon": "info" },
+            { "id": "02-deploy-ec2-setup", "title": "2. EC2 서버 설정", "icon": "server" },
+            { "id": "03-deploy-docker-build", "title": "3. Docker 빌드 전략", "icon": "package" },
+            { "id": "04-deploy-docker-compose", "title": "4. EC2 컨테이너 실행", "icon": "play" },
+            { "id": "05-deploy-nginx", "title": "5. Nginx 리버스 프록시", "icon": "shield" },
+            { "id": "06-deploy-https", "title": "6. HTTPS 적용", "icon": "lock" },
+            { "id": "07-deploy-dns", "title": "7. DNS 및 도메인 연결", "icon": "globe" }
         ]
     },
     {
@@ -68,16 +79,8 @@
         "icon": "file-text",
         "category": "technical-standards",
         "items": [
-            { "id": "code-convention", "title": "1. 코딩 컨벤션", "icon": "code-2" },
-            { "id": "environment-setup", "title": "2. 개발 환경 설정", "icon": "monitor" }
-        ]
-    },
-    {
-        "name": "팀 리소스",
-        "icon": "folder",
-        "category": "team-resources",
-        "items": [
-            { "id": "team-resources", "title": "1. 팀 프로젝트 페이지", "icon": "external-link" }
+            { "id": "01-environment-setup", "title": "1. 개발 환경 설정", "icon": "monitor" },
+            { "id": "02-code-convention", "title": "2. 코딩 컨벤션", "icon": "code-2" }
         ]
     }
 ]

@@ -1,4 +1,8 @@
+# 팀 리소스
+
 우리 팀의 모든 프로젝트 관리와 문서화는 아래 Notion 페이지를 중심으로 이루어집니다.
+
+## 1. 프로젝트 관리
 
 [강원대 2팀 프로젝트 페이지 바로가기](https://www.notion.so/pullit/2-245c61d733498000a869fc6fb977d52e?p=255c61d733498052b394fe84e3dbc1e0&pm=s)
 
@@ -9,3 +13,12 @@
 - **설계 문서**: 화면 설계, API 명세, 요구사항 정의서 등 프로젝트의 핵심 설계 자산이 모두 모여있습니다.
 - **스프린트 백로그**: Jira와 유사한 형태로, 각 백엔드 작업(BTSK-XX)의 담당자, 상태, 진행 주차 등을 상세하게 추적하고 관리합니다.
 - **기술 블로그**: 개발 과정에서 발생한 이슈 해결 경험, 새로운 기술 학습 내용 등 팀의 기술적 자산을 축적하는 공간입니다.
+
+
+## 2. GitHub 저장소
+
+### 백엔드 (Backend)
+[🔗 Team2_BE - AI 문제 생성 서비스 Pull-it 백엔드](https://github.com/kakao-tech-campus-3rd-step3/Team2_BE)
+
+### 프론트엔드 (Frontend)  
+[🔗 Team2_FE - AI 문제 생성 서비스 Pull-it 프론트엔드](https://github.com/kakao-tech-campus-3rd-step3/Team2_FE)

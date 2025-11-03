@@ -52,7 +52,7 @@ graph TD
 
 ### [흐름] 요청은 어떻게 처리되는가?
 
-1.  **Client → Nginx:** 사용자의 모든 요청(HTTPS)은 Nginx를 통해 EC2 인스턴스로 들어옵니다. Nginx는 SSL 인증서를 처리하여 HTTPS 트래픽을 복호화(SSL Termination)하고, 리버스 프록시로서 요청을 내부 Spring Boot 애플리케이션으로 전달합니다. 운영 환경의 인증서는 **Certbot을 통해 Let's Encrypt에서 자동으로 발급 및 갱신**하고 있으며, 로컬 개발 과정에서는 `mkcert`를 사용해 신뢰할 수 있는 테스트 인증서를 발급함으로써 개발과 운영 환경의 HTTPS 설정을 거의 동일하게 유지했습니다.
+1.  **Client → Nginx:** 사용자의 모든 요청(HTTPS)은 Nginx를 통해 EC2 인스턴스로 들어옵니다. Nginx는 SSL 인증서를 처리하여 HTTPS 트래픽을 복호화(SSL Termination)하고, 리버스 프록시로서 요청을 내부 Spring Boot 애플리케이션으로 전달합니다. (운영 환경의 인증서는 **Certbot을 통해 Let's Encrypt에서 자동으로 발급 및 갱신**하고 있으며, 로컬 개발 과정에서는 `mkcert`를 사용해 신뢰할 수 있는 테스트 인증서를 발급함으로써 개발과 운영 환경의 HTTPS 설정을 거의 동일하게 유지했습니다.) => 이부분 배포하는 쪽에서 설명하도록 넘기자.
 2.  **Nginx → Backend:** 백엔드 애플리케이션은 비즈니스 로직을 수행합니다. 이 과정에서 필요에 따라 외부 서비스(S3, Gemini, DB)와 통신하며 전체 프로세스를 조율(Orchestration)합니다.
 
 ## 2. 주요 설계 결정과 그 배경
