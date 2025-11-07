@@ -6,49 +6,7 @@
 
 현재 아키텍처는 단일 EC2 인스턴스 내에서 Nginx와 Spring Boot 애플리케이션이 동작하는 단순하지만 효율적인 구조를 가지고 있습니다.
 
-```mermaid
-graph TD
-    subgraph "User"
-        Client["Browser"]
-    end
-
-    subgraph "Pullit Platform (Single EC2 Instance)"
-        Nginx["<b>Nginx</b><br>Reverse Proxy<br>SSL Termination"]
-        Backend["Pullit Backend<br>(Spring Boot)"]
-        DB["<b>MariaDB</b><br>Data Persistence"]
-
-        Nginx --> Backend
-    end
-
-    subgraph "External Services"
-        S3["<b>AWS S3</b><br>File Storage"]
-        Gemini["<b>Google Gemini API</b><br>AI Processing"]
-        Kakao["<b>Kakao API</b><br>Social Login"]
-    end
-
-    %% Interactions
-    Client -- "HTTPS" --> Nginx
-
-    Backend -- "Presigned URL 생성" --> S3
-    Client --> S3_Upload(( ))
-    S3_Upload -- "파일 직접 업로드" --> S3
-
-    Backend -- "AI 처리 지시" --> Gemini
-    Backend -- "데이터 영구 저장" --> DB
-
-    Gemini -- "데이터 참조" --> S3
-
-    Client -- "OAuth 2.0 인증" --> Kakao
-    Backend -- "사용자 정보 조회" --> Kakao
-
-    %% Styling
-    style Nginx fill:#E8F8F5,stroke:#16A085,stroke-width:2px
-    style Backend fill:#D5F5E3,stroke:#333,stroke-width:1px
-    style S3 fill:#FFF3CD,stroke:#333,stroke-width:2px
-    style Gemini fill:#EBF5FB,stroke:#333,stroke-width:2px
-    style DB fill:#FADBD8,stroke:#333,stroke-width:2px
-    style Kakao fill:#FFF9C4,stroke:#FBC02D,stroke-width:2px
-```
+![Architecture](./architecture.png)
 
 ### [흐름] 요청은 어떻게 처리되는가?
 

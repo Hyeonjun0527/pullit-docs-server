@@ -7,7 +7,7 @@
 백엔드 애플리케이션을 로컬에서 실행하고 API를 테스트하기 위한 절차입니다. 데이터베이스, Redis 등 외부 의존성은 Docker를 통해 관리하여 복잡성을 줄입니다.
 
 <video controls width="100%">
-  <source src="/content/development-process/local-backend-movie.mkv" type="video/mp4">
+  <source src="./local-backend-movie.mkv" type="video/mp4">
   브라우저가 비디오 태그를 지원하지 않습니다.
 </video>
 
@@ -81,7 +81,7 @@ S3_SECRET_KEY=?
 
 
 <video controls width="100%">
-  <source src="/content/development-process/local-frontend-movie.mkv" type="video/mp4">
+  <source src="./local-frontend-movie.mkv" type="video/mp4">
   브라우저가 비디오 태그를 지원하지 않습니다.
 </video>
 

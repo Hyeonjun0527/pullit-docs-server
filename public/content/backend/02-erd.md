@@ -15,52 +15,7 @@
 
 ## 2. 전체 ERD
 
-```mermaid
-erDiagram
-    MEMBER ||--o{ LEARN_STATS : "회원이 주인인 통계"
-    MEMBER ||--o{ LEARN_STATS_DAILY : "회원별 하루치 학습기록"
-    MEMBER ||--o{ MARKING_RESULT : "이 회원의 채점 결과"
-    MEMBER ||--o{ QUESTION_SET : "이 회원이 만든 문제집"
-    MEMBER ||--o{ SOURCE : "이 회원이 업로드한 자료"
-    MEMBER ||--o{ SOURCE_FOLDER : "이 회원의 자료 폴더"
-    MEMBER ||--o{ WRONG_ANSWER : "회원의 오답 기록"
-
-    QUESTION ||--o{ MARKING_RESULT : "이 문항에 대한 채점"
-    QUESTION ||--o{ WRONG_ANSWER : "어떤 문항에서 틀렸는가"
-    QUESTION ||--o{ QUESTION_OPTIONS : "보기(Option) → 문항 (1→N)"
-    QUESTION ||--|| QUESTION_MULTIPLE_CHOICE : "객관식 문항 상세 (1=1)"
-    QUESTION ||--|| QUESTION_SHORT_ANSWER : "주관식 문항 상세 (1=1)"
-    QUESTION ||--|| QUESTION_TRUE_FALSE : "참거짓 문항 상세 (1=1)"
-
-    QUESTION_SET ||--o{ QUESTION : "이 문제집에 속한 문항"
-    SOURCE ||--o{ QUESTION : "이 자료에서 추출된 문항"
-
-    QUESTION_SET ||--o{ QUESTION_SET_SOURCE : "문제집 ↔ 자료 연결 (M↔N)"
-    SOURCE ||--o{ QUESTION_SET_SOURCE : "문제집 ↔ 자료 연결 (M↔N)"
-
-    COMMON_FOLDER ||--o{ QUESTION_SET : "문제집이 속한 공용 폴더"
-    SOURCE_FOLDER ||--o{ SOURCE : "이 폴더에 속한 자료"
-
-    %% Infrastructure Tables
-    OUTBOX_EVENT
-    PROCESSED_EVENT
-    MIGRATION_HISTORY
-
-    %% Styling
-    classDef user fill:#EBF5FB,stroke:#3498DB,stroke-width:2px
-    classDef source fill:#E8F8F5,stroke:#1ABC9C,stroke-width:2px
-    classDef question fill:#FEF9E7,stroke:#F1C40F,stroke-width:2px
-    classDef folder fill:#F4ECF7,stroke:#9B59B6,stroke-width:2px
-    classDef stats fill:#FDEDEC,stroke:#E74C3C,stroke-width:2px
-    classDef infra fill:#EAEDED,stroke:#95A5A6,stroke-width:2px
-
-    class MEMBER user
-    class SOURCE,SOURCE_FOLDER source
-    class QUESTION,QUESTION_MULTIPLE_CHOICE,QUESTION_OPTIONS,QUESTION_SET,QUESTION_SET_SOURCE,QUESTION_SHORT_ANSWER,QUESTION_TRUE_FALSE,MARKING_RESULT,WRONG_ANSWER question
-    class COMMON_FOLDER folder
-    class LEARN_STATS,LEARN_STATS_DAILY stats
-    class OUTBOX_EVENT,PROCESSED_EVENT,MIGRATION_HISTORY infra
-```
+![ERD](./erd.png)
 
 ## 3. 핵심 도메인 설명
 
