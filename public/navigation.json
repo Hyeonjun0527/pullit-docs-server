@@ -87,5 +87,13 @@
             { "id": "01-environment-setup", "title": "1. 개발 환경 설정", "icon": "monitor" },
             { "id": "02-code-convention", "title": "2. 코딩 컨벤션", "icon": "code-2" }
         ]
+    },
+    {
+        "name": "임시 테스트",
+        "icon": "edit-3",
+        "category": "temporary",
+        "items": [
+            { "id": "01-editable-test", "title": "1. 문서 편집 테스트", "icon": "file-text" }
+        ]
     }
 ]
