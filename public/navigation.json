@@ -27,7 +27,8 @@
         "category": "development-process",
         "items": [
             { "id": "01-git-convention", "title": "1. Git 컨벤션", "icon": "git-branch" },
-            { "id": "02-api-design", "title": "2. API 설계", "icon": "code" }
+            { "id": "02-api-design", "title": "2. API 설계", "icon": "code" },
+            { "id": "03-local-development-setup", "title": "3. 로컬 개발 환경 구성", "icon": "laptop" }
         ]
     },
     {
