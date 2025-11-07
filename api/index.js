@@ -1,6 +1,7 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const { withAccelerate } = require('@prisma/extension-accelerate');
+const path = require('path');
 
 // --- Start Debugging ---
 console.log('--- Environment Variables ---');
@@ -34,6 +35,10 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
 
 // API to get all documents
 app.get('/api/documents', async (req, res) => {
