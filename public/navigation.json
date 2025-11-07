@@ -71,7 +71,10 @@
             { "id": "04-deploy-docker-compose", "title": "4. EC2 컨테이너 실행", "icon": "play" },
             { "id": "05-deploy-nginx", "title": "5. Nginx 리버스 프록시", "icon": "shield" },
             { "id": "06-deploy-https", "title": "6. HTTPS 적용", "icon": "lock" },
-            { "id": "07-deploy-dns", "title": "7. DNS 및 도메인 연결", "icon": "globe" }
+            { "id": "07-deploy-dns", "title": "7. DNS 및 도메인 연결", "icon": "globe" },
+            { "id": "08-blue-green-deployment", "title": "8. 무중단 배포", "icon": "refresh-cw" },
+            { "id": "09-continuous-integration", "title": "9. CI (Github Actions)", "icon": "git-pull-request" },
+            { "id": "10-continuous-deployment", "title": "10. CD (Github Actions)", "icon": "rocket" }
         ]
     },
     {
