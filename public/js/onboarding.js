@@ -196,39 +196,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     history.pushState({ sectionId }, '', `#${sectionId}`);
                 }
                 
-                // Scroll main content to top, preserving sidebar scroll
-                const contentEl = this.$el.querySelector('.main-content');
+                const contentEl = document.querySelector('.main-content');
                 if (contentEl) {
                     contentEl.scrollTop = 0;
                 }
 
                 this.closeAllDropdowns();
                 
+                // Vue가 DOM 업데이트를 완료한 후에 플러그인 초기화를 실행하도록 보장
                 this.$nextTick(() => {
-                    // 마크다운 렌더링 후 머메이드 다이어그램 처리
-                    setTimeout(() => {
-                        this.initializeMermaid();
-                    }, 200);
-                    
-                    // Syntax highlighting 적용
-                    if (typeof hljs !== 'undefined') {
-                        hljs.highlightAll();
-                    }
-                    
-                    // Re-initialize Lucide icons after content change
-                    if (typeof lucide !== 'undefined') {
-                        lucide.createIcons();
-                    }
+                    this.initializePlugins();
                 });
             },
-            initializeMermaid() {
+
+            initializePlugins() {
+                // Mermaid 재렌더링
                 if (window.mermaid) {
-                    const mermaidElements = this.$el.parentElement.querySelectorAll('.main-content .mermaid');
+                    // Find all mermaid blocks in the main content area
+                    const mermaidElements = document.querySelectorAll('.main-content .mermaid');
+                    
+                    // Clear any previous processing artifacts
+                    mermaidElements.forEach(el => {
+                        el.removeAttribute('data-processed');
+                        // Ensure the code is visible for mermaid.run to process
+                        const code = decodeURIComponent(el.getAttribute('data-mermaid-code') || '');
+                        if(code) el.innerHTML = code;
+                    });
                     
                     window.mermaid.run({
                         nodes: mermaidElements
                     });
 
+                    // Add double-click to open in new tab functionality again
                     mermaidElements.forEach(el => {
                         el.ondblclick = () => {
                             const svg = el.querySelector('svg');
@@ -239,6 +238,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         };
                         el.style.cursor = 'pointer';
                     });
+                }
+                
+                // Syntax highlighting 적용
+                if (typeof hljs !== 'undefined') {
+                    hljs.highlightAll();
+                }
+                
+                // Lucide 아이콘 재초기화
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
                 }
             },
             
@@ -311,20 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             this.$nextTick(() => {
-                // 머메이드 초기화
-                setTimeout(() => {
-                    this.initializeMermaid();
-                }, 500);
+                // 최초 로딩 시 플러그인 초기화
+                this.initializePlugins();
                 
-                // Initialize Lucide icons
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons();
-                }
-
                 // Attach event listeners after the DOM is fully rendered
                 window.addEventListener('click', (event) => {
-                    const navMenu = this.$el.parentElement.querySelector('.nav-menu');
-                    const fabContainer = this.$el.parentElement.querySelector('.fab-container');
+                    const navMenu = document.querySelector('.nav-menu');
+                    const fabContainer = document.querySelector('.fab-container');
 
                     if (navMenu && !navMenu.contains(event.target)) {
                         this.closeAllDropdowns();

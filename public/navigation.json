@@ -75,7 +75,8 @@
             { "id": "07-deploy-dns", "title": "7. DNS 및 도메인 연결", "icon": "globe" },
             { "id": "08-blue-green-deployment", "title": "8. 무중단 배포", "icon": "refresh-cw" },
             { "id": "09-continuous-integration", "title": "9. CI (Github Actions)", "icon": "git-pull-request" },
-            { "id": "10-continuous-deployment", "title": "10. CD (Github Actions)", "icon": "rocket" }
+            { "id": "10-continuous-deployment", "title": "10. CD (Github Actions)", "icon": "rocket" },
+            { "id": "11-local-compose-setup", "title": "11. 로컬 환경 (Compose)", "icon": "cpu" }
         ]
     },
     {
