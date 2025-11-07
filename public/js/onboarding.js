@@ -22,11 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     this.generateSectionsFromNavigation();
 
                     const hash = window.location.hash.substring(1);
-                    if (this.sections[hash]) {
-                        this.showSection(hash, false);
-                    } else {
-                        this.showSection('01-introduction', false);
-                    }
+                    const initialSection = this.sections[hash] ? hash : '01-introduction';
+
+                    // Set initial state without pushing to history
+                    this.showSection(initialSection, false);
+                    // Replace the initial history state so back button works correctly from the start
+                    history.replaceState({ sectionId: initialSection }, '', `#${initialSection}`);
+
                 } catch (error) {
                     console.error("Failed to initialize the app:", error);
                 }
@@ -172,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 this.sections = sections;
             },
-            async showSection(sectionId, updateHash = true) {
+            async showSection(sectionId, updateHistory = true) {
                 const section = this.sections[sectionId];
                 if (section && section.markdownUrl && !section.loaded) {
                     try {
@@ -189,9 +191,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 this.activeSection = sectionId;
-                if(updateHash) {
-                    window.location.hash = sectionId;
+                
+                if (updateHistory) {
+                    history.pushState({ sectionId }, '', `#${sectionId}`);
                 }
+                
+                // Scroll main content to top, preserving sidebar scroll
+                const contentEl = this.$el.querySelector('.main-content');
+                if (contentEl) {
+                    contentEl.scrollTop = 0;
+                }
+
                 this.closeAllDropdowns();
                 
                 this.$nextTick(() => {
@@ -288,6 +298,18 @@ document.addEventListener('DOMContentLoaded', () => {
         async mounted() {
             await this.initializeApp();
             
+            window.addEventListener('popstate', (event) => {
+                const sectionId = (event.state && event.state.sectionId) 
+                    ? event.state.sectionId 
+                    : window.location.hash.substring(1);
+
+                if (this.sections[sectionId]) {
+                    this.showSection(sectionId, false);
+                } else if (sectionId === '' && this.sections['01-introduction']) {
+                    this.showSection('01-introduction', false);
+                }
+            });
+
             this.$nextTick(() => {
                 // 머메이드 초기화
                 setTimeout(() => {
