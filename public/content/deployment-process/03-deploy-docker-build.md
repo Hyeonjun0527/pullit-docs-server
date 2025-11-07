@@ -10,7 +10,7 @@
 
 ## Multi-stage `Dockerfile`
 
-```dockerfile
+```yaml
 # ===================================
 #  Builder Stage
 #  - 소스코드를 컴파일하고 실행 가능한 JAR 파일을 생성합니다.

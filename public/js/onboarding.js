@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     this.generateSectionsFromNavigation();
 
                     const hash = window.location.hash.substring(1);
-                    const initialSection = this.sections[hash] ? hash : '01-introduction';
+                     const initialSection = this.sections[hash] ? hash : '01-introduction';
 
                     // Set initial state without pushing to history
                     this.showSection(initialSection, false);
