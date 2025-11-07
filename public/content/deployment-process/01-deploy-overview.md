@@ -10,7 +10,7 @@ Pullit 서비스의 전체 배포 아키텍처와 CI/CD 파이프라인의 흐�
 
 ```mermaid
 flowchart TD
-    subgraph CI [CI 파이프라인 (GitHub Actions)]
+    subgraph CI [CI 파이프라인 - GitHub Actions]
         A[1. 코드 빌드 & 테스트] --> B[2. Docker 이미지 생성];
     end
 

@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "check-db": "node scripts/check-db.js",
-    "build:css": "sass src/styles/main.scss public/css/main.css --watch",
+    "start": "node api/index.js",
+    "build:css": "sass src/styles/main.scss public/css/main.css",
+    "watch:css": "sass --watch src/styles/main.scss:public/css/main.css",
+    "build": "npm run build:css && prisma generate",
     "build:css:prod": "sass src/styles/main.scss public/css/main.css --style compressed"
   },
   "prisma": {
@@ -21,7 +24,7 @@
     "sass": "^1.93.2"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.0",
+    "@prisma/client": "^5.17.0",
     "@prisma/extension-accelerate": "^2.0.2",
     "@vercel/postgres": "^0.10.0",
     "dotenv": "^17.2.3",

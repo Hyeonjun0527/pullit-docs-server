@@ -17,52 +17,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 authPassword: '',
                 authError: '',
                 isDragging: {},
-                pendingAction: null
+                pendingAction: null,
+                isFullyLoaded: false
             }
         },
         methods: {
             async initializeApp() {
                 try {
-                    // 1. 네비게이션 정보 로드
+                    // 1. 네비게이션으로 UI 뼈대 즉시 생성
                     const navResponse = await fetch('/navigation.json');
-                    if (!navResponse.ok) throw new Error('Navigation config not found');
                     this.navigation = await navResponse.json();
-                    this.generateSectionsFromNavigation(); // sections 객체 기본 구조 생성
+                    this.generateSectionsFromNavigation(); // 이 함수는 각 섹션에 markdownUrl을 채워줌
             
-                    // 2. 모든 문서 데이터 로드
+                    // 2. 초기 화면 렌더링
+                    const hash = window.location.hash.substring(1);
+                    const initialSection = this.sections[hash] ? hash : '01-introduction';
+                    this.showSection(initialSection, false);
+            
+                    // 3. 백그라운드에서 DB 데이터 로딩 및 캐싱 시작
+                    setTimeout(() => {
+                        this.fetchAndCacheAllDocuments();
+                    }, 100); // UI 렌더링을 방해하지 않도록 약간의 지연 후 실행
+            
+                } catch (error) {
+                    console.error("Initialization failed:", error);
+                }
+            },
+            async fetchAndCacheAllDocuments() {
+                try {
                     const docsResponse = await fetch('/api/documents');
-                    if (!docsResponse.ok) throw new Error('Failed to fetch documents');
                     const allDocsArray = await docsResponse.json();
-
-                    // 프론트엔드에서 사용하기 쉽도록 category/id를 키로 갖는 객체로 변환
+                    
                     const allDocs = allDocsArray.reduce((acc, doc) => {
                         const [category, id] = doc.path.split('/');
                         acc[doc.path] = { ...doc, category, id };
                         return acc;
                     }, {});
             
-                    // 3. Local Storage에 캐싱
                     localStorage.setItem('pullitDocsCache', JSON.stringify(allDocs));
             
-                    // 4. 캐시된 데이터로 로컬 섹션 데이터 업데이트
+                    // DB 데이터로 sections 객체 업데이트
                     Object.values(allDocs).forEach(doc => {
                         if (this.sections[doc.id]) {
                             this.sections[doc.id].markdown = doc.content;
-                            this.sections[doc.id].loaded = true;
+                            this.sections[doc.id].loaded = true; // DB에서 로드되었음을 표시
                         }
                     });
             
-                    const hash = window.location.hash.substring(1);
-                    const initialSection = this.sections[hash] ? hash : '01-introduction';
-            
-                    // Set initial state without pushing to history
-                    this.showSection(initialSection, false);
-                    // Replace the initial history state so back button works correctly from the start
-                    history.replaceState({ sectionId: initialSection }, '', `#${initialSection}`);
+                    this.isFullyLoaded = true;
+                    console.log("All documents fetched from DB and cached.");
             
                 } catch (error) {
-                    console.error("Failed to initialize the app with cached data:", error);
-                    // 캐싱 실패 시 기존 로직으로 폴백 (선택적)
+                    console.error("Failed to fetch and cache documents from DB:", error);
                 }
             },
             generateSectionsFromNavigation() {
@@ -214,6 +220,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!section) {
                     console.error(`Section with id '${sectionId}' not found.`);
                     return;
+                }
+
+                // DB 데이터가 아직 로드되지 않았다면 로컬 파일을 먼저 보여줌
+                if (!section.loaded && section.markdownUrl) {
+                    try {
+                        const response = await fetch(section.markdownUrl);
+                        if (response.ok) {
+                            section.markdown = await response.text();
+                        } else {
+                            section.markdown = "문서를 불러오는 데 실패했습니다.";
+                        }
+                    } catch (e) {
+                        section.markdown = "문서 로딩 중 오류 발생.";
+                    }
                 }
             
                 this.activeSection = sectionId;
@@ -474,8 +494,36 @@ document.addEventListener('DOMContentLoaded', () => {
             renderMarkdown(markdown) {
                 if (!markdown) return '';
                 
-                // marked.js 옵션 설정
                 const renderer = new marked.Renderer();
+                const currentSection = this.sections[this.activeSection];
+
+                // 이미지 렌더러 재정의
+                renderer.image = (href, title, text) => {
+                    let resolvedPath = href;
+                    // 상대 경로인 경우 (./ 또는 ../ 로 시작)
+                    if (currentSection && (href.startsWith('./') || href.startsWith('../'))) {
+                        // 현재 문서의 URL 디렉토리 부분을 기준으로 경로 조합
+                        const baseUrl = new URL(currentSection.markdownUrl, window.location.origin);
+                        const imageUrl = new URL(href, baseUrl);
+                        resolvedPath = imageUrl.pathname;
+                    }
+                    return `<img src="${resolvedPath}" alt="${text}"${title ? ` title="${title}"` : ''}>`;
+                };
+
+                // 비디오 렌더러 추가 (MKV 등)
+                renderer.link = (href, title, text) => {
+                    if (href.endsWith('.mkv') || href.endsWith('.mp4')) {
+                         let resolvedPath = href;
+                        if (currentSection && (href.startsWith('./') || href.startsWith('../'))) {
+                            const baseUrl = new URL(currentSection.markdownUrl, window.location.origin);
+                            const videoUrl = new URL(href, baseUrl);
+                            resolvedPath = videoUrl.pathname;
+                        }
+                        return `<video controls width="100%"><source src="${resolvedPath}" type="video/mp4">브라우저가 비디오 태그를 지원하지 않습니다.</video>`;
+                    }
+                    // 기본 링크 처리
+                    return `<a href="${href}"${title ? ` title="${title}"` : ''}>${text}</a>`;
+                };
 
                 // Mermaid 코드 블록을 그대로 유지 (HTML 변환 방지)
                 renderer.code = (code, language) => {
