@@ -42,9 +42,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/yaml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/sql.min.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div id="app" class="onboarding-page">
+    <div id="app" class="onboarding-page" v-cloak>
         <!-- Modern Floating Action Button -->
         <div class="fab-container">
             <div class="fab-menu" :class="{ show: isFabExpanded }">
