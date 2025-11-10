@@ -28,7 +28,7 @@
       "dest": "/public/landing.html"
     },
     {
-      "src": "/.*",
+      "src": "/(?<path>[^.]*)",
       "dest": "/public/index.html"
     }
   ]
