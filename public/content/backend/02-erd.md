@@ -15,7 +15,7 @@
 
 ## 2. 전체 ERD
 
-![ERD](./erd.png)
+<img src="./erd.png" alt="ERD" style="max-width: 100%;">
 
 ## 3. 핵심 도메인 설명
 

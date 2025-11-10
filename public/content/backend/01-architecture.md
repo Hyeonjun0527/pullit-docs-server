@@ -6,7 +6,7 @@
 
 현재 아키텍처는 단일 EC2 인스턴스 내에서 Nginx와 Spring Boot 애플리케이션이 동작하는 단순하지만 효율적인 구조를 가지고 있습니다.
 
-![Architecture](./architecture.png)
+<img src="./architecture.png" alt="Architecture" style="max-width: 100%;">
 
 ### [흐름] 요청은 어떻게 처리되는가?
 
