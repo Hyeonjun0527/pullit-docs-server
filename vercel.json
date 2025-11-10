@@ -24,6 +24,10 @@
       "dest": "/public/$1"
     },
     {
+      "src": "/",
+      "dest": "/public/landing.html"
+    },
+    {
       "src": "/.*",
       "dest": "/public/index.html"
     }

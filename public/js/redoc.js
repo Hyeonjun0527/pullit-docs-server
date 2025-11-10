@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         lucide.createIcons();
     }
     
-    const SPEC_URL = '/api-docs.yaml';
+    const SPEC_URL = 'https://qa.api.pull.it.kr/api-docs.yaml';
 
     function loadDocs() {
         if (isRefreshing) return;
