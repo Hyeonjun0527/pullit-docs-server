@@ -10,7 +10,7 @@
 
 아래 다이어그램은 데이터베이스의 전체 테이블과 컬럼, 그리고 테이블 간의 관계를 보여줍니다.
 
-<img src="./erd.png" alt="Database Schema" style="max-width: 100%;">
+<img src="/content/backend/erd.png" alt="Database Schema" style="max-width: 100%;">
 
 ## 3. 테이블 상세 설명
 

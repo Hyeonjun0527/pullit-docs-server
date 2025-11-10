@@ -6,7 +6,7 @@
 
 Jacoco를 사용하여 코드 커버리지를 측정하고 있으며, 총 481개의 테스트 메서드를 통해 **클래스 84%, 메서드 81%, 라인 80%, 브랜치 69%**의 높은 커버리지를 달성하여 코드의 안정성과 신뢰성을 확보합니다.
 
-<img src="./test-coverage.png" alt="Test Coverage Report" style="max-width: 100%;">
+<img src="/content/backend/test-coverage.png" alt="Test Coverage Report" style="max-width: 100%;">
 
 ## 🎯 테스트 핵심 철학
 
