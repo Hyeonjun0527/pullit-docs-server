@@ -40,7 +40,9 @@
             { "id": "02-erd", "title": "2. ERD", "icon": "database" },
             { "id": "03-database-schema", "title": "3. 상세 스키마", "icon": "table" },
             { "id": "04-Gemini", "title": "4. Gemini 연동 가이드", "icon": "cpu" },
-            { "id": "05-scheduler-guide", "title": "5. 스케줄러 가이드", "icon": "clock" }
+            { "id": "05-scheduler-guide", "title": "5. 스케줄러 가이드", "icon": "clock" },
+            { "id": "06-test-guide", "title": "6. 테스트 가이드", "icon": "beaker" },
+            { "id": "07-event-architecture", "title": "7. 이벤트 아키텍처", "icon": "zap" }
         ]
     },
     {
