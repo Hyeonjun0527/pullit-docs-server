@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             async initializeApp() {
                 try {
                     // 1. 네비게이션으로 UI 뼈대 즉시 생성
-                    const navResponse = await fetch('/navigation.json');
+                    const navResponse = await fetch(PullitDocsRuntime.withBasePath('/navigation.json'));
                     this.navigation = await navResponse.json();
                     this.generateSectionsFromNavigation(); // 이 함수는 각 섹션에 markdownUrl을 채워줌
             
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             async fetchAndCacheAllDocuments() {
                 try {
-                    const docsResponse = await fetch('/api/documents');
+                    const docsResponse = await fetch(PullitDocsRuntime.withBasePath('/api/documents'));
                     const allDocsArray = await docsResponse.json();
                     
                     const allDocs = allDocsArray.reduce((acc, doc) => {
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             sections[item.id] = {
                                 title: item.title,
                                 category: category.category, // Explicitly store category
-                                markdownUrl: `/content/${category.category}/${item.id}.md`,
+                                markdownUrl: PullitDocsRuntime.withBasePath(`/content/${category.category}/${item.id}.md`),
                                 loaded: false,
                                 markdown: '',
                             };
@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const content = this.editingContent[sectionId];
 
                     try {
-                        const response = await fetch(`/api/documents/${section.category}/${sectionId}`, {
+                        const response = await fetch(PullitDocsRuntime.withBasePath(`/api/documents/${section.category}/${sectionId}`), {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // 이미지 렌더러 재정의
                 renderer.image = (href, title, text) => {
-                    let resolvedPath = href;
+                    let resolvedPath = PullitDocsRuntime.withBasePath(href);
                     // 상대 경로인 경우 (./ 또는 ../ 로 시작)
                     if (currentSection && (href.startsWith('./') || href.startsWith('../'))) {
                         // 현재 문서의 URL 디렉토리 부분을 기준으로 경로 조합
@@ -513,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 비디오 렌더러 추가 (MKV 등)
                 renderer.link = (href, title, text) => {
                     if (href.endsWith('.mkv') || href.endsWith('.mp4')) {
-                         let resolvedPath = href;
+                         let resolvedPath = PullitDocsRuntime.withBasePath(href);
                         if (currentSection && (href.startsWith('./') || href.startsWith('../'))) {
                             const baseUrl = new URL(currentSection.markdownUrl, window.location.origin);
                             const videoUrl = new URL(href, baseUrl);

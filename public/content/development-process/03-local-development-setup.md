@@ -99,7 +99,7 @@ S3_SECRET_KEY=?
 로컬에 백엔드를 띄우지 않고 프론트엔드 UI/UX 작업에만 집중하고 싶을 때 사용합니다. API 키 설정이 전혀 필요 없어 간편합니다.
 ```
 # .env.local
-VITE_API_BASE_URL=https://qa.api.pull.it.kr
+VITE_API_BASE_URL=https://portfolio.yeon.world/pull-it
 ```
 > 원칙상 QA 서버와 로컬 프론트가 통신해야 하지만, 현재 QA 서버가 별도로 없어 운영(Production) 서버와 통신하여 개발을 진행합니다.
 

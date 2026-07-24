@@ -33,6 +33,16 @@ if (process.env.NODE_ENV === 'development') {
 
 const app = express();
 
+app.use((req, res, next) => {
+    const docsBasePath = '/pull-it/docs';
+    if (req.url === docsBasePath) {
+        req.url = '/';
+    } else if (req.url.startsWith(`${docsBasePath}/`)) {
+        req.url = req.url.slice(docsBasePath.length);
+    }
+    next();
+});
+
 app.use(express.json());
 app.use(express.static('public'));
 

@@ -2,6 +2,16 @@
 
 Pullit 프로젝트의 문서 관리 및 제공을 위한 서버입니다.
 
+## 복구된 공개 경로
+
+- 문서 포털: `https://portfolio.yeon.world/pull-it/docs`
+- API 명세: `https://portfolio.yeon.world/pull-it/docs/redoc.html`
+- 백엔드 OpenAPI 원본: `https://portfolio.yeon.world/pull-it/api-docs`
+
+배포 전 `.env.example`을 기준으로 `DATABASE_URL`과
+`POSTGRES_URL_NON_POOLING`을 설정합니다. 실제 키와 비밀번호는 저장소에
+커밋하지 않습니다.
+
 ## 주요 스크립트 명령어
 
 ### 데이터베이스 초기화 및 시딩

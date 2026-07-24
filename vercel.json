@@ -16,6 +16,18 @@
   ],
   "routes": [
     {
+      "src": "/pull-it/docs/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/pull-it/docs/(.*\\..*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/pull-it/docs/?",
+      "dest": "/public/landing.html"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/index.js"
     },

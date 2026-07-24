@@ -46,7 +46,7 @@
 해당 프로젝트의 최상단 위치에 .env.local 파일을 생성한 후 아래의 내용을 작성해 저장해 주세요.
 ```bash
 // 파일명: .env.local
-VITE_API_BASE_URL=https://qa.api.pull.it.kr
+VITE_API_BASE_URL=https://portfolio.yeon.world/pull-it
 VITE_BASIC_USER=pullit
 VITE_BASIC_PASS=pullit5!
 ```
