@@ -39,7 +39,8 @@ EC2 (Ubuntu)
 
 - 프런트엔드: 팀 선호에 따라 Vercel 호스팅 (독립 파이프라인).
 - 백엔드: 단일 EC2 인스턴스가 QA 겸 운영 역할을 담당하며, 사용자 증가 시 추가 노드나 ALB를 도입할 수 있도록 Docker 기반으로 유지합니다.
-- HTTPS는 `https://qa.api.pull.it.kr` 표준 도메인으로 통일했습니다.
+- 당시 HTTPS는 `https://qa.api.pull.it.kr`로 통일했습니다. 현재 복구 환경의 표준 API 경로는
+  `https://portfolio.yeon.world/pull-it/api`입니다.
 
 ## 4. 릴리스 플로우
 

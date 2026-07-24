@@ -21,14 +21,15 @@ Pullit 프로젝트에서는 API 호출 및 테스트를 위해 **Insomnia**를 
 ## 3. Base Environment 구조 이해하기를
 
 워크스페이스에는 로컬과 QA 환경 설정이 모두 **Base Environment** 안에 포함돼 있으며, 각 Collection은 해당 값을 참조만 합니다.
-(현재 QA라는 이름이 붙어있지만 기존 실서비스 배포 서버의 DNS 주소가 https://qa.api.pull.it.kr입니다.)
+(기존 `qa.api.pull.it.kr` 주소는 종료되었습니다. 복구된 포트폴리오 환경에서는
+`https://portfolio.yeon.world/pull-it/api`를 사용합니다.)
 
 `Manage Environments` 화면에서 아래와 유사한 구조를 확인할 수 있습니다.
 
 ```json
 {
   "qa": {
-    "domain": "https://qa.api.pull.it.kr",
+    "domain": "https://portfolio.yeon.world/pull-it",
     "auth": {
       "accessToken": "본인의 토큰 값",
       "refreshToken": "본인의 토큰 값"
