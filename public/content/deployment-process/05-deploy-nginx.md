@@ -1,5 +1,7 @@
 # Nginx 전체 설정
 
+> **과거 운영 기록:** 이 문서의 `*.pull.it.kr` Nginx 구성과 인증서는 종료 예정인 이전 인프라의 기록입니다. 현재 Pull-it의 공개 진입점은 `https://portfolio.yeon.world/pull-it`이며, 새 설정은 [복구 환경 배포 계약](https://github.com/Hyeonjun0527/Team2_BE/blob/main/docs/production-secret-contract.md)을 기준으로 합니다. 이 문서의 설정을 현재 서버에 복사하거나 수정하지 마세요.
+
 EC2 서버에서 실행 중인 Nginx의 전체 설정 파일(`sites-available/default`)입니다. Blue/Green 배포를 위한 `upstream` 설정과 각 서비스(API, Grafana, Prometheus, RabbitMQ)의 리버스 프록시 규칙을 포함하고 있습니다.
 
 ## 주요 설정 설명

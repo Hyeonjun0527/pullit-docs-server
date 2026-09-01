@@ -1,5 +1,7 @@
 # 6. HTTPS 적용
 
+> **과거 운영 기록:** 아래 Certbot 예시는 종료 예정인 `*.pull.it.kr` 인프라의 보존 문서입니다. 현재 Pull-it은 `https://portfolio.yeon.world/pull-it` 하위 경로로 제공되며, 이 예시의 도메인·인증서 명령을 새 환경에 적용하지 않습니다.
+
 Let's Encrypt와 Certbot을 사용하여 무료로 SSL/TLS 인증서를 발급받고, Nginx에 적용하여 통신을 암호화(HTTPS)합니다.
 
 ## 1. Certbot 설치

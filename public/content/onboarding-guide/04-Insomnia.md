@@ -46,8 +46,8 @@ Pullit 프로젝트에서는 API 호출 및 테스트를 위해 **Insomnia**를 
 ```
 
 - `domain`: 요청 URL을 구성할 기본 호스트입니다. 각 요청은 `{{ _.local.domain }}` 또는 `{{ _.qa.domain }}` 같은 참조를 사용합니다.
-- `auth.accessToken`: Authorization 헤더에 주입되는 값입니다. QA 토큰은 만료 주기가 짧으므로, QA 검증을 시작할 때마다 최신 토큰으로 교체하세요.
-- `auth.refreshToken`: QA 계정으로 재발급이 필요할 때 Insomnia 스크립트나 요청에서 사용합니다. 로컬 개발에서는 기본값(`1`)으로 대체 인증을 사용할 수 있습니다.
+- `auth.accessToken`: Authorization 헤더에 주입되는 값입니다. 포트폴리오 Pull-it 토큰은 만료 주기가 짧으므로, 검증을 시작할 때마다 최신 토큰으로 교체하세요. `qa` 객체명은 이전 워크스페이스 호환을 위한 이름일 뿐, 과거 QA 도메인을 뜻하지 않습니다.
+- `auth.refreshToken`: 포트폴리오 Pull-it 계정으로 재발급이 필요할 때 Insomnia 스크립트나 요청에서 사용합니다. 로컬 개발에서는 기본값(`1`)으로 대체 인증을 사용할 수 있습니다.
 
 컬렉션 드롭다운에서 `local` 또는 `qa`를 선택하면, 해당 이름과 일치하는 Base Environment 하위 객체가 병합되어 최종 요청이 완성됩니다.
 

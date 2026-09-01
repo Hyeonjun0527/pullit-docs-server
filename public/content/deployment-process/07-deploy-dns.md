@@ -1,5 +1,7 @@
 # 7. DNS 및 도메인 연결 (Vercel & Route 53)
 
+> **과거 운영 기록:** 이 문서는 이전 `api-qa.pull.it.kr` 서브도메인 구성의 기록입니다. 현재 복구 배포는 새 `*.pull.it.kr` DNS 레코드를 만들지 않고 `https://portfolio.yeon.world/pull-it`의 경로 프록시를 사용합니다. 아래 DNS 절차를 현재 `yeon.world` 설정에 적용하지 마세요.
+
 EC2 인스턴스에 고정 IP를 할당하고, 구매한 도메인과 연결하여 웹 서비스에 접근할 수 있도록 설정합니다. Pull-it 팀은 **Vercel을 메인 DNS 서버로 사용**하여 프론트엔드 배포와 도메인 관리를 일원화하고 있습니다. 동시에 **AWS Route 53**도 특정 라우팅 정책이나 내부 DNS 관리 등 보조적인 역할로 함께 사용하고 있습니다.
 
 이 문서에서는 메인 흐름인 Vercel을 기준으로 백엔드 API 서버(`api-qa.pull.it.kr`)를 연결하는 과정을 설명합니다.
