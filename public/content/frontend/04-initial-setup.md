@@ -48,7 +48,7 @@
 // 파일명: .env.local
 VITE_API_BASE_URL=https://portfolio.yeon.world/pull-it
 VITE_BASIC_USER=pullit
-VITE_BASIC_PASS=pullit5!
+# Basic Auth 비밀번호는 문서에 저장하지 않습니다. 로컬 비밀 저장소 또는 배포 환경변수로만 관리합니다.
 ```
 
 #### [참고] Node.js 패키지 매니저에 대하여
