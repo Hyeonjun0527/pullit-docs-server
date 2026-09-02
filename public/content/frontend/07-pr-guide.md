@@ -26,4 +26,4 @@
 ## PR 승인
 - PR 검토 Request를 받으면 검토자는 해당 PR에 대해 Approve나 Request Change 등의 의견을 남겨야 합니다.
 - 기본적으로 최소 한 줄 이상의 comment를 작성해 주는 것을 권장하고 있습니다.
-- PR이 병합된 후 수 분내에 자동으로 pull.it.kr에 반영되니, 신중하게 접근하여야 하며 해당 부분을 홈페이지 상에서 다시 확인하여 정상적으로 작동하는지 확인해야 합니다.
+- PR 병합은 배포 완료의 증거가 아닙니다. Vercel 또는 Backend Deploy workflow의 성공과 `https://portfolio.yeon.world/pull-it`의 해당 기능을 각각 확인한 뒤에만 반영 완료로 기록합니다.

@@ -34,7 +34,7 @@ import axios from 'axios';
 axios.get('/learning/source/upload');
 
 // ❌ 전체 URL 사용: CORS 에러 발생
-api.get('<https://api-qa.pull.it.kr/api/learning/source/upload>');
+api.get('<https://portfolio.yeon.world/pull-it/api/learning/source/upload>');
 
 // ❌ URL에 /api 포함: 경로 중복으로 404 에러 발생
 api.get('/api/learning/source/upload');

@@ -1,5 +1,7 @@
 # 초기 세팅 가이드 (macOS/Windows/Linux 공통)
 
+> **과거 개발 기록:** 이 문서에 나오는 `local.pull.it.kr`와 QA API 도메인은 이전 개발 환경의 예시입니다. 현재 포트폴리오 복구 환경의 공개 경로는 `https://portfolio.yeon.world/pull-it`이며, 이 문서의 DNS·도메인 지시를 현재 설정에 적용하지 마세요.
+
 이 가이드는 Backend Tech Spec에 정리된 개발 환경 기준을 바탕으로 Pullit 백엔드 저장소를 처음 받았을 때 해야 할 작업을 운영체제별로 안내합니다. macOS, Windows(PowerShell 또는 WSL2), Linux(Ubuntu/Debian 계열)를 모두 지원하며, 동일한 개발 스택을 구성해 팀 규칙을 준수할 수 있도록 순서와 검증 방법을 제공합니다.
 
 ## 0. 빠른 시작 요약표
