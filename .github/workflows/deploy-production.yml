@@ -1,6 +1,7 @@
 name: Deploy Pull-it Docs to Yeon Pi
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
@@ -40,7 +41,7 @@ jobs:
           context: .
           platforms: linux/arm64
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/pullit-docs-server:${{ github.sha }}
+          tags: ghcr.io/hyeonjun0527/pullit-docs-server:${{ github.sha }}
           labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
 
   deploy:
@@ -62,7 +63,7 @@ jobs:
           printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
       - name: Upload only this revision's docs contract
         env:
-          PULLIT_DOCS_IMAGE: ghcr.io/${{ github.repository_owner }}/pullit-docs-server:${{ github.sha }}
+          PULLIT_DOCS_IMAGE: ghcr.io/hyeonjun0527/pullit-docs-server:${{ github.sha }}
           PULLIT_DOCS_DB_PASSWORD: ${{ secrets.PULLIT_DOCS_DB_PASSWORD }}
           DEPLOY_HOST: ${{ vars.PULLIT_DEPLOY_HOST }}
         run: |
