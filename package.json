@@ -28,8 +28,6 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
-    "@prisma/extension-accelerate": "^2.0.2",
-    "@vercel/postgres": "^0.10.0",
     "diff": "^8.0.2",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
