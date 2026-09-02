@@ -1,35 +1,17 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
-const { withAccelerate } = require('@prisma/extension-accelerate');
 const path = require('path');
 
 // --- Start Debugging ---
 console.log('--- Environment Variables ---');
 console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('POSTGRES_URL_NON_POOLING:', process.env.POSTGRES_URL_NON_POOLING ? 'Loaded' : 'NOT LOADED');
 console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'Loaded' : 'NOT LOADED');
 console.log('---------------------------');
 // --- End Debugging ---
 
 
-// Conditionally initialize Prisma Client
-let prisma;
-if (process.env.NODE_ENV === 'development') {
-    // In local development, use a direct connection to the database
-    // This ensures that `prisma db seed` changes are reflected immediately
-    console.log('Running in development mode: using direct database connection.');
-    prisma = new PrismaClient({
-        datasources: {
-            db: {
-                url: process.env.POSTGRES_URL_NON_POOLING,
-            },
-        },
-    });
-} else {
-    // In production (Vercel), use Prisma Accelerate for performance
-    console.log('Running in production mode: using Prisma Accelerate.');
-    prisma = new PrismaClient().$extends(withAccelerate());
-}
+// Pi와 로컬 개발 모두 직접 PostgreSQL 연결을 사용한다. Vercel Accelerate는 쓰지 않는다.
+const prisma = new PrismaClient();
 
 const app = express();
 
@@ -48,6 +30,10 @@ app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+
+app.get('/healthz', (req, res) => {
+    res.status(200).send('ok');
 });
 
 // API to get all documents
@@ -129,7 +115,11 @@ async function seed() {
     }
 }
 */
-// Seed the database when the server starts (for demonstration)
-// seed();
+if (require.main === module) {
+    const port = Number(process.env.PORT || 3000);
+    app.listen(port, () => {
+        console.log(`Pull-it Docs server is listening on ${port}.`);
+    });
+}
 
 module.exports = app;

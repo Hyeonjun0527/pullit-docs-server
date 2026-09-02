@@ -2,9 +2,8 @@
 
 ## 📋 필수 요구사항
 
-- Node.js (v16 이상)
+- Node.js (v22 이상)
 - npm
-- Vercel CLI (`npm i -g vercel`)
 
 ## 🔧 개발 서버 실행
 
@@ -16,13 +15,13 @@ npm run build:css
 - **이 터미널은 개발하는 동안 계속 켜두세요**
 - 파일 변경 시 자동으로 `public/css/main.css` 생성/업데이트
 
-### 2단계: Vercel 개발 서버 실행 (새 터미널)
+### 2단계: Express 개발 서버 실행 (새 터미널)
 ```bash
-vercel dev
+npm start
 ```
 - 로컬 개발 서버 실행
 - 브라우저에서 `http://localhost:3000` 접속
-- 서버리스 함수와 정적 파일 서빙
+- Express API와 정적 파일 서빙
 
 ## 📁 개발 워크플로우
 
@@ -31,7 +30,7 @@ vercel dev
 npm run build:css
 
 # 터미널 2 (웹 서버)
-vercel dev
+npm start
 ```
 
 ### 개발 중 파일 수정 순서:
@@ -52,11 +51,8 @@ npm run build:css:prod
 
 ### 서버 관련
 ```bash
-# Vercel 개발 서버 실행
-vercel dev
-
-# Vercel에 배포
-vercel --prod
+# Express 개발 서버 실행
+npm start
 ```
 
 ## 📂 파일 구조
@@ -73,7 +69,7 @@ pullit-docs-server/
 │   │   └── main.css     # 컴파일된 CSS (자동 생성)
 │   ├── js/              # JavaScript 파일
 │   └── *.html           # HTML 파일들
-└── api/                 # 서버리스 함수
+└── api/                 # Express API
 ```
 
 ## 🔄 SCSS 개발 가이드
@@ -115,16 +111,13 @@ pullit-docs-server/
 ## 🚀 배포
 
 ### 자동 배포 (권장)
-- `main` 브랜치에 push하면 Vercel이 자동으로 배포
-- SCSS는 `vercel.json`의 `buildCommand`로 자동 컴파일
+- `main` 브랜치에서 문서 서비스 파일이 바뀌면 GitHub Actions가 ARM64 컨테이너를 빌드한다.
+- 제한된 배포 계정이 라즈베리파이의 Pull-it 문서 컨테이너만 교체한다.
 
-### 수동 배포
+### 로컬 프로덕션 확인
 ```bash
-# 프로덕션 CSS 빌드
-npm run build:css:prod
-
-# Vercel에 배포
-vercel --prod
+npm run build
+docker build --platform linux/arm64 -t pullit-docs:local .
 ```
 
 ## 🐛 트러블슈팅
@@ -141,21 +134,17 @@ npm install
 npm run build:css
 ```
 
-### Vercel 개발 서버 에러
+### Express 개발 서버 에러
 ```bash
-# Vercel CLI 재설치
-npm uninstall -g vercel
-npm install -g vercel
-
-# 프로젝트 재연결
-vercel link
-vercel dev
+# 의존성을 다시 설치한 뒤 실행
+npm ci
+npm start
 ```
 
 ### 포트 충돌
 ```bash
 # 다른 포트로 실행
-vercel dev --listen 3001
+PORT=3001 npm start
 ```
 
 ## 📝 개발 팁
@@ -168,6 +157,6 @@ vercel dev --listen 3001
 ## 🔗 유용한 링크
 
 - [Sass 공식 문서](https://sass-lang.com/documentation)
-- [Vercel CLI 문서](https://vercel.com/docs/cli)
+- [Express 문서](https://expressjs.com/)
 - [Vue.js 가이드](https://vuejs.org/guide/)
 - [Lucide Icons](https://lucide.dev/icons/)

@@ -1,0 +1,78 @@
+name: Deploy Pull-it Docs to Yeon Pi
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - api/**
+      - prisma/**
+      - public/**
+      - src/**
+      - package.json
+      - package-lock.json
+      - Dockerfile
+      - docker-compose.prod.yml
+      - ops/production/**
+      - .github/workflows/deploy-production.yml
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: pullit-docs-production
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/pullit-docs-server:${{ github.sha }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pullit-docs-production
+    steps:
+      - uses: actions/checkout@v5
+      - name: Configure the dedicated Pi deployment identity
+        env:
+          DEPLOY_KEY: ${{ secrets.PULLIT_DEPLOY_SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ vars.PULLIT_DEPLOY_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_KEY" && test -n "$KNOWN_HOSTS"
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: Upload only this revision's docs contract
+        env:
+          PULLIT_DOCS_IMAGE: ghcr.io/${{ github.repository_owner }}/pullit-docs-server:${{ github.sha }}
+          PULLIT_DOCS_DB_PASSWORD: ${{ secrets.PULLIT_DOCS_DB_PASSWORD }}
+          DEPLOY_HOST: ${{ vars.PULLIT_DEPLOY_HOST }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_HOST" && test -n "$PULLIT_DOCS_DB_PASSWORD"
+          staging="$(mktemp -d)"
+          trap 'rm -rf "$staging"' EXIT
+          install -m 640 docker-compose.prod.yml "$staging/docker-compose.prod.yml"
+          install -m 750 ops/production/deploy-docs.sh "$staging/deploy-docs.sh"
+          umask 077
+          printf 'PULLIT_DOCS_IMAGE=%s\nPULLIT_DOCS_DB_PASSWORD=%s\n' "$PULLIT_DOCS_IMAGE" "$PULLIT_DOCS_DB_PASSWORD" > "$staging/pullit-docs-production.env"
+          ssh -i ~/.ssh/id_ed25519 -o BatchMode=yes "pullit-deploy@$DEPLOY_HOST" "mkdir -p /opt/pullit/incoming/docs/${{ github.sha }}"
+          scp -i ~/.ssh/id_ed25519 -r "$staging/." "pullit-deploy@$DEPLOY_HOST:/opt/pullit/incoming/docs/${{ github.sha }}/"
+          ssh -i ~/.ssh/id_ed25519 -o BatchMode=yes "pullit-deploy@$DEPLOY_HOST" "sudo /usr/local/sbin/pullit-deploy docs ${{ github.sha }}"
